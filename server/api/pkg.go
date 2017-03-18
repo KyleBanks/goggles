@@ -21,3 +21,17 @@ func pkgList(w http.ResponseWriter, r *http.Request) {
 	})
 	json.NewEncoder(w).Encode(&pkgs)
 }
+
+// pkgDetails returns the full details of a package, identified by the
+// parameter 'name'.
+func pkgDetails(w http.ResponseWriter, r *http.Request) {
+	q := r.URL.Query()
+	name := q.Get("name")
+
+	p, err := goggles.Details(name)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	json.NewEncoder(w).Encode(&p)
+}

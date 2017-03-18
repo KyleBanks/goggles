@@ -5,6 +5,7 @@
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,300italic,700,700italic">
 		<link rel="stylesheet" type="text/css" href="/static/css/lib/normalize.css">
 		<link rel="stylesheet" type="text/css" href="/static/css/lib/milligram.min.css">
+		<link rel="stylesheet" type="text/css" href="/static/css/lib/prettify.css">
 		<link rel="stylesheet" type="text/css" href="/static/css/main.css">
 		<link rel="stylesheet" type="text/css" href="/static/css/colors.css">
 	</head>
@@ -36,12 +37,30 @@
 	        		<a href="#" onclick="PkgListController.onPkgSelected('{{name}}')">{{displayName}}</a>
 	        	</span>
 			</div>
+
 			<div id="t-pkg-list-header" class="header">
 	        	<span>{{name}}</span>
+			</div>
+
+			<div id="t-pkg-details">
+				<h2>{{name}}</h2>
+				<code>{{import}}</code>
+
+				<h4>Usage</h4>
+				{{package}}
+
+				<h4>Constants</h4>
+				{{constants}}
+
+				<h4>Variables</h4>
+				{{variables}}
+
 			</div>
 		</div>
 
 		<!-- JS -->
+		<script src="/static/js/lib/showdown.1.6.3.js" type="text/javascript"></script>
+		<script src="/static/js/lib/prettify.js" type="text/javascript"></script>
 		<script src="/static/js/debug.js" type="text/javascript"></script>
 		<script src="/static/js/loader.js" type="text/javascript"></script>
 		<script src="/static/js/template.js" type="text/javascript"></script>

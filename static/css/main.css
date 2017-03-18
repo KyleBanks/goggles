@@ -42,6 +42,12 @@ html,body{
 
 #controllers #pkg-list .search input::-webkit-input-placeholder {
 	font-size: 0.8em;
+	line-height: 1.5;
+}
+
+/* Pkg Details */
+#pkg-details h4 {
+	margin: 0.5em 0;
 }
 
 /* Templates */

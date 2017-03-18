@@ -21,6 +21,7 @@ var API = {
                 return;
             }
 
+            console.log(xmlhttp.status, xmlhttp.responseText);
             if (xmlhttp.status == 200) {
                 cb(null, JSON.parse(xmlhttp.responseText));
             } else if (xmlhttp.status == 400) {
@@ -40,6 +41,16 @@ var API = {
      */
     loadPkgList: function(cb) {
         return API._get("/pkg/list", cb);
+    },
+
+    /**
+     * Loads the full details of a package.
+     *
+     * @param name {String}
+     * @param cb {function(Error, Object)}
+     */
+    getPkg: function(name, cb) {
+        return API._get("/pkg/details?name=" + encodeURIComponent(name), cb);
     },
 
     /**

@@ -1,7 +1,6 @@
 package goggles
 
 import (
-	"go/build"
 	"log"
 	"os"
 	"path/filepath"
@@ -36,7 +35,18 @@ func ListPkgs() ([]*Pkg, error) {
 		}
 
 		expect++
-		go resolve(path, ch)
+		go func(path string, ch chan *Pkg) {
+			p, err := resolve(path)
+			if err != nil {
+				if err != depth.ErrRootPkgNotResolved {
+					log.Printf("failed to resolve pkg %v: %v", path, err)
+				}
+				ch <- nil
+				return
+			}
+
+			ch <- p
+		}(path, ch)
 		return nil
 	})
 
@@ -52,8 +62,22 @@ func ListPkgs() ([]*Pkg, error) {
 	return pkgs, nil
 }
 
+// Details returns the full details of a Pkg.
+func Details(name string) (*Pkg, error) {
+	p, err := resolve(name)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := p.makeDocs(); err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}
+
 // resolve attempts to resolve a single package and passes it to the channel provided.
-func resolve(path string, ch chan *Pkg) {
+func resolve(path string) (*Pkg, error) {
 	t := depth.Tree{
 		ResolveTest:     false,
 		ResolveInternal: false,
@@ -63,21 +87,12 @@ func resolve(path string, ch chan *Pkg) {
 		if err != depth.ErrRootPkgNotResolved {
 			log.Printf("failed to resolve pkg %v: %v", path, err)
 		}
-		ch <- nil
-		return
+		return nil, err
 	}
 
-	docs, err := build.Import(t.Root.Name, t.Root.SrcDir, build.ImportComment)
-	if err != nil {
-		log.Printf("failed to find docs %v: %v", t.Root.Name, err)
-		ch <- nil
-		return
-	}
-
-	ch <- &Pkg{
-		Pkg:  *t.Root,
-		Docs: docs.Doc,
-	}
+	return &Pkg{
+		Pkg: *t.Root,
+	}, nil
 }
 
 // cleanPath sanitizes a package path.

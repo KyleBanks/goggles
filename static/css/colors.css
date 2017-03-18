@@ -14,6 +14,11 @@ a:hover {
 	color: #92CDCF;
 }
 
+pre, code {
+	background: #31353D;
+	border-left-color: #92CDCF;
+}
+
 /* Controllers */
 #controllers #pkg-list {
 	background: #31353D;

@@ -17,6 +17,7 @@ func Bind(d DevTooler) {
 
 	// PKGs
 	http.HandleFunc("/api/pkg/list", pkgList)
+	http.HandleFunc("/api/pkg/details", pkgDetails)
 
 	// Misc.
 	http.HandleFunc("/api/debug", debug)
