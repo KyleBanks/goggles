@@ -22,3 +22,10 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+bin/
+*.app
+.DS_STORE
+
+node_modules/
+bower_components/
