@@ -14,7 +14,7 @@ import (
 const (
 	port    = 10765
 	logFile = "$HOME/Library/Logs/goggles.log"
-	title   = "Goggles"
+	title   = ""
 )
 
 var window = gallium.WindowOptions{
@@ -26,10 +26,10 @@ var window = gallium.WindowOptions{
 	},
 	TitleBar:         true,
 	Frame:            true,
-	Resizable:        true,
+	Resizable:        false,
 	CloseButton:      true,
 	MinButton:        true,
-	FullScreenButton: true,
+	FullScreenButton: false,
 	Title:            title,
 }
 

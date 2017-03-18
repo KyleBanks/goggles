@@ -1,13 +1,31 @@
+/* https://color.adobe.com/Quiet-Cry-color-theme-124171/ */
+
 /* General */
 body {
-	color: #606c76;
+	color: #EEEFF7;
+	background: #445878;
 }
 
 a {
-	color: #375EAB;
+	color: #EEEFF7;
+}
+
+a:hover {
+	color: #92CDCF;
 }
 
 /* Controllers */
-#controllers .border-right {
-	border-right-color: #375EAB;
+#controllers #pkg-list {
+	background: #31353D;
+}
+
+#controllers #pkg-list .header {
+	color: #EEEFF7;
+	background: #1C1D21;
+}
+
+#controllers #pkg-list .search input {
+	background: #1C1D21;
+	border-color: #1C1D21;
+	color: #EEEFF7;
 }

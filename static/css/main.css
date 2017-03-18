@@ -2,6 +2,7 @@
 html,body{
 	overflow: hidden;
 	height: 100%;
+	font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }
 
 .hide {
@@ -12,6 +13,7 @@ html,body{
 #controllers.container {
 	height: 100%;
 	max-width: 100%; 
+	padding: 0;
 }
 
 #controllers.container .row {
@@ -25,9 +27,21 @@ html,body{
 	padding: 1em;
 }
 
-#controllers .border-right {
-	border-right-width: 1px;
-	border-right-style: solid;
+/* Pkg List */
+#controllers #pkg-list .header {
+	text-align: center;
+	margin: 0.5em 0;
+	padding: 0.2em;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+
+#controllers #pkg-list .pkg {
+	padding: 0.2em 1em;
+}
+
+#controllers #pkg-list .search input::-webkit-input-placeholder {
+	font-size: 0.8em;
 }
 
 /* Templates */

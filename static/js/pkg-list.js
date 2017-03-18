@@ -5,6 +5,7 @@ var PkgListController = {
     $search: document.getElementById("txt-pkg-list-search"),
     $list: document.getElementById("pkg-list-content"),
     $t: document.getElementById("t-pkg-list"),
+    $headerT: document.getElementById("t-pkg-list-header"),
 
     _pkgList: null,
 
@@ -51,6 +52,7 @@ var PkgListController = {
             search = $this.$search.value.toLowerCase(),
             contents = [];
 
+        var header = null;
         for (var i = 0; i < $this._pkgList.length; i++) {
             var pkg = $this._pkgList[i];
 
@@ -58,7 +60,26 @@ var PkgListController = {
                 continue;
             }
 
-            contents.push(Template.apply($this.$t, pkg));
+            if (header == null || pkg.name.indexOf(header) !== 0) {
+                var components = pkg.name.split("/");
+
+                header = [components[0], components[1], components[2]].join("/");
+                contents.push(Template.apply($this.$headerT, {
+                    name: header
+                }));
+            }
+
+            var displayName = pkg.name;
+            if (displayName === header) {
+                displayName = pkg.name.split("/").pop();
+            } else {
+                displayName = pkg.name.replace(header + "/", "");
+            }
+
+            contents.push(Template.apply($this.$t, {
+                displayName: displayName,
+                name: pkg.name,
+            }));
         }
 
         $this.$list.innerHTML = contents.join("");

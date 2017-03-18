@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<!-- Styles -->
-		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,300italic,700,700italic">
 		<link rel="stylesheet" type="text/css" href="/static/css/lib/normalize.css">
 		<link rel="stylesheet" type="text/css" href="/static/css/lib/milligram.min.css">
 		<link rel="stylesheet" type="text/css" href="/static/css/main.css">
@@ -18,7 +18,7 @@
 		<div id="controllers" class="container">
 			<div class="row">
 				
-				<div id="pkg-list" class="column column-33 border-right">
+				<div id="pkg-list" class="column column-33">
 					<div class="search">
 						<input type="text" placeholder="Search" id="txt-pkg-list-search">
 					</div>
@@ -31,10 +31,13 @@
 
 		<!-- Templates -->
 		<div id="templates">
-			<div id="t-pkg-list">
+			<div id="t-pkg-list" class="pkg">
 	        	<span>
-	        		<a href="#" onclick="PkgListController.onPkgSelected('{{name}}')">{{name}}</a>
+	        		<a href="#" onclick="PkgListController.onPkgSelected('{{name}}')">{{displayName}}</a>
 	        	</span>
+			</div>
+			<div id="t-pkg-list-header" class="header">
+	        	<span>{{name}}</span>
 			</div>
 		</div>
 
