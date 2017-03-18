@@ -43,11 +43,27 @@
 			</div>
 
 			<div id="t-pkg-details">
-				<h2>{{name}}</h2>
+				<h1>{{name}}</h1>
 				<code>{{import}}</code>
 
-				<h4>Usage</h4>
+				<h2>Usage</h2>
 				{{package}}
+
+				<h2>Constants</h2>
+				{{constants}}
+
+				<h2>Variables</h2>
+				{{variables}}
+
+				<h2>Functions</h2>
+				{{functions}}
+
+				<h2>Types</h2>
+				{{types}}
+			</div>
+
+			<div id="t-pkg-details-type">
+				<h3>{{header}}</h3>
 
 				<h4>Constants</h4>
 				{{constants}}
@@ -55,6 +71,8 @@
 				<h4>Variables</h4>
 				{{variables}}
 
+				<h4>Functions</h4>
+				{{functions}}
 			</div>
 		</div>
 

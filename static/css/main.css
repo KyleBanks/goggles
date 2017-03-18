@@ -9,6 +9,33 @@ html,body{
 	display: none;
 }
 
+pre.prettyprint {
+	border: none;
+}
+
+h1 {
+	font-size: 4rem;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+}
+h2 {
+	font-size: 2.5rem;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+h3 {
+	font-size: 2rem;
+}
+h4 {
+	font-size: 1.5rem;
+}
+h5 {
+	font-size: 1.2rem;
+}
+h6 {
+	font-size: 1rem;
+}
+
 /* Controllers */
 #controllers.container {
 	height: 100%;

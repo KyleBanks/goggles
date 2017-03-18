@@ -16,7 +16,10 @@ a:hover {
 
 pre, code {
 	background: #31353D;
-	border-left-color: #92CDCF;
+}
+
+h1, h2 {
+	border-bottom-color: #31353D;
 }
 
 /* Controllers */

@@ -21,7 +21,7 @@ var API = {
                 return;
             }
 
-            console.log(xmlhttp.status, xmlhttp.responseText);
+            console.log("(" + xmlhttp.status + ") " + xmlhttp.responseText);
             if (xmlhttp.status == 200) {
                 cb(null, JSON.parse(xmlhttp.responseText));
             } else if (xmlhttp.status == 400) {

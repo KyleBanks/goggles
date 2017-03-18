@@ -31,6 +31,7 @@ var Loader = {
 
         if ($this._showCount > 0) {
             $this.$el.classList.remove("hide");
+            $this._swapImg();
         } else {
             $this.$el.classList.add("hide");
         }
@@ -45,6 +46,11 @@ var Loader = {
         $this._imgIdx++;
         if ($this._imgIdx >= $this._images.length) {
             $this._imgIdx = 0;
+        }
+
+        // If not visible, only update the index, don't bother displaying.
+        if ($this._showCount <= 0) {
+            return;
         }
 
         $this.$el.getElementsByTagName('img')[0]
