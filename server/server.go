@@ -5,14 +5,9 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/KyleBanks/goggles/server/api"
 )
-
-var devTools DevTooler
-
-// DevTooler defines a type that can be used to display developer tools.
-type DevTooler interface {
-	OpenDevTools()
-}
 
 // Start prepares and starts the HTTP server.
 //
@@ -22,13 +17,13 @@ type DevTooler interface {
 // /foo/bar
 //    /goggles
 //    /static/...
-func Start(d DevTooler, root string, port int) {
+func Start(d api.DevTooler, root string, port int) {
 	log.Printf("server.Start(%v, %v)", root, port)
 	root = filepath.Join(root, "static")
 
 	fs := http.FileServer(http.Dir(root))
 	http.Handle("/", http.StripPrefix("/static/", fs))
-	bindAPIRoutes()
+	api.Bind(d)
 
 	http.ListenAndServe(fmt.Sprintf(":%v", port), wrap(http.DefaultServeMux))
 }

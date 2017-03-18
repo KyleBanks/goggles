@@ -4,10 +4,6 @@ html,body{
 	height: 100%;
 }
 
-a {
-	color: #375eab;
-}
-
 .hide {
 	display: none;
 }
@@ -15,20 +11,23 @@ a {
 /* Controllers */
 #controllers.container {
 	height: 100%;
-	padding: 0;
-	max-width: 100%;
+	max-width: 100%; 
 }
+
 #controllers.container .row {
 	height: 100%;
 }
+
 #controllers.container .row .column {
 	overflow-x: hidden;
 	overflow-y: auto;
 	height: 100%;
 	padding: 1em;
 }
+
 #controllers .border-right {
-	border-right: 1px solid #375eab;
+	border-right-width: 1px;
+	border-right-style: solid;
 }
 
 /* Templates */
@@ -44,6 +43,6 @@ a {
 	position: absolute;
 	top: 100%;
 	margin-top: -210px;
-	left: 50%;
+	left: 16.5%;
 	margin-left: -100px;
 }

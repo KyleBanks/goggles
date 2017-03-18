@@ -6,8 +6,10 @@
 		<link rel="stylesheet" type="text/css" href="/static/css/lib/normalize.css">
 		<link rel="stylesheet" type="text/css" href="/static/css/lib/milligram.min.css">
 		<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+		<link rel="stylesheet" type="text/css" href="/static/css/colors.css">
 	</head>
 	<body>
+
 		<div id="loader" class="hide">
 			<img src="/static/img/loader-1.png">
 		</div>
@@ -16,24 +18,23 @@
 		<div id="controllers" class="container">
 			<div class="row">
 				
-				<div id="pkg-list" class="column border-right">
-					<div id="pkg-list-search">
+				<div id="pkg-list" class="column column-33 border-right">
+					<div class="search">
 						<input type="text" placeholder="Search" id="txt-pkg-list-search">
 					</div>
 					<div id="pkg-list-content"></div>
 				</div>
 
-				<div id="pkg-details" class="column"></div>
+				<div id="pkg-details" class="column column-67"></div>
 			</div>
 		</div>
 
 		<!-- Templates -->
 		<div id="templates">
 			<div id="t-pkg-list">
-	        	<h4>
+	        	<span>
 	        		<a href="#" onclick="PkgListController.onPkgSelected('{{name}}')">{{name}}</a>
-	        	</h4>
-	        	<p>{{docs}}</p>
+	        	</span>
 			</div>
 		</div>
 

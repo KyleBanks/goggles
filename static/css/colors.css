@@ -1,0 +1,13 @@
+/* General */
+body {
+	color: #606c76;
+}
+
+a {
+	color: #375EAB;
+}
+
+/* Controllers */
+#controllers .border-right {
+	border-right-color: #375EAB;
+}
