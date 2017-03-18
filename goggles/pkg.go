@@ -14,28 +14,35 @@ import (
 	"github.com/KyleBanks/depth"
 )
 
+const (
+	Package  ContentType = "PACKAGE"
+	Function ContentType = "FUNCTION"
+	Type     ContentType = "TYPE"
+)
+
+type ContentType string
+
 // Pkg represents a go source package.
 type Pkg struct {
 	depth.Pkg
 
 	files *token.FileSet
-	Docs  struct {
-		Name      string    `json:"name"`
-		Import    string    `json:"import"`
-		Package   string    `json:"package"`
-		Constants string    `json:"constants"`
-		Variables string    `json:"variables"`
-		Functions string    `json:"functions"`
-		Types     []PkgType `json:"types"`
-	} `json:"docs"`
+	Docs  Doc `json:"docs"`
 }
 
-type PkgType struct {
-	Name      string `json:"name"`
-	Header    string `json:"header"`
+// Doc represents documentation for a function, type, or package.
+type Doc struct {
+	ContentType ContentType `json:"contentType"`
+
+	Name        string `json:"name"`
+	Header      string `json:"header"`
+	Import      string `json:"import"`
+	Declaration string `json:"declaration"`
+	Usage       string `json:"usage"`
+
 	Constants string `json:"constants"`
 	Variables string `json:"variables"`
-	Functions string `json:"functions"`
+	Content   []Doc  `json:"content"`
 }
 
 // makeDocs retrieves the documentation for a package and attaches it to the Pkg.
@@ -46,13 +53,18 @@ func (p *Pkg) makeDocs() error {
 		return err
 	}
 
-	p.Docs.Name = doc.Name
-	p.Docs.Import = fmt.Sprintf("import \"%v\"", p.Name)
-	p.Docs.Package = strings.TrimSpace(doc.Doc)
-	p.Docs.Constants = p.printValues(doc.Consts)
-	p.Docs.Variables = p.printValues(doc.Vars)
-	p.Docs.Functions = p.printFuncs(doc.Funcs)
-	p.Docs.Types = p.printTypes(doc.Types)
+	p.Docs = Doc{
+		ContentType: Package,
+
+		Name:   doc.Name,
+		Import: fmt.Sprintf("import \"%v\"", p.Name),
+		Usage:  doc.Doc,
+
+		Constants: p.printValues(doc.Consts),
+		Variables: p.printValues(doc.Vars),
+	}
+	p.Docs.Content = append(p.Docs.Content, p.printFuncs(doc.Funcs)...)
+	p.Docs.Content = append(p.Docs.Content, p.printTypes(doc.Types)...)
 
 	return nil
 }
@@ -79,47 +91,59 @@ func (p *Pkg) parseDocs() (*doc.Package, error) {
 func (p *Pkg) printValues(vals []*doc.Value) string {
 	var b bytes.Buffer
 	for _, v := range vals {
-		fmt.Fprintf(&b, "```\n%s\n%s\n```\n", p.printToken(v.Decl), p.printToken(v.Doc))
+		fmt.Fprintf(&b, "%s\n%s", p.printToken(v.Decl), p.printToken(v.Doc))
 	}
 	return b.String()
 }
 
-func (p *Pkg) printFuncs(funcs []*doc.Func) string {
-	var b bytes.Buffer
+func (p *Pkg) printFuncs(funcs []*doc.Func) []Doc {
+	var docs []Doc
 	for _, f := range funcs {
 		var receiver string
 		if f.Recv != "" {
-			receiver = fmt.Sprintf("(%s)", f.Recv)
+			receiver = fmt.Sprintf("(%s) ", f.Recv)
 		}
 
-		//fmt.Fprintf(&b, "###func %s %s\n%s\n```\n%s\n```\n", receiver, f.Name, f.Doc, p.printToken(f.Decl))
-		println(receiver)
-		fmt.Fprintf(&b, "%s\n```\n%s\n```\n", f.Doc, p.printToken(f.Decl))
-	}
+		docs = append(docs, Doc{
+			ContentType: Function,
 
-	return b.String()
-}
-
-func (p *Pkg) printTypes(types []*doc.Type) []PkgType {
-	var pkgTypes []PkgType
-
-	for _, t := range types {
-		pkgTypes = append(pkgTypes, PkgType{
-			Name:      t.Name,
-			Header:    fmt.Sprintf("type %v", t.Name),
-			Constants: p.printValues(t.Consts),
-			Variables: p.printValues(t.Vars),
-			Functions: p.printFuncs(t.Funcs),
+			Name:        f.Name,
+			Usage:       f.Doc,
+			Header:      fmt.Sprintf("func %v%v", receiver, f.Name),
+			Declaration: p.printToken(f.Decl),
 		})
 	}
 
-	return pkgTypes
+	return docs
+}
+
+func (p *Pkg) printTypes(types []*doc.Type) []Doc {
+	var docs []Doc
+	for _, t := range types {
+		d := Doc{
+			ContentType: Type,
+
+			Name:        t.Name,
+			Usage:       t.Doc,
+			Header:      fmt.Sprintf("type %v", t.Name),
+			Declaration: p.printToken(t.Decl),
+
+			Constants: p.printValues(t.Consts),
+			Variables: p.printValues(t.Vars),
+		}
+		d.Content = append(d.Content, p.printFuncs(t.Funcs)...)
+		d.Content = append(d.Content, p.printFuncs(t.Methods)...)
+
+		docs = append(docs, d)
+	}
+
+	return docs
 }
 
 func (p *Pkg) printToken(t interface{}) string {
 	var b bytes.Buffer
 	conf := printer.Config{
-		Mode:     printer.TabIndent,
+		Mode:     printer.UseSpaces,
 		Tabwidth: 4,
 	}
 	err := conf.Fprint(&b, p.files, t)

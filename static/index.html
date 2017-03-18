@@ -37,42 +37,24 @@
 	        		<a href="#" onclick="PkgListController.onPkgSelected('{{name}}')">{{displayName}}</a>
 	        	</span>
 			</div>
-
 			<div id="t-pkg-list-header" class="header">
 	        	<span>{{name}}</span>
 			</div>
+
 
 			<div id="t-pkg-details">
 				<h1>{{name}}</h1>
 				<code>{{import}}</code>
 
-				<h2>Usage</h2>
-				{{package}}
-
-				<h2>Constants</h2>
-				{{constants}}
-
-				<h2>Variables</h2>
-				{{variables}}
-
-				<h2>Functions</h2>
-				{{functions}}
-
-				<h2>Types</h2>
-				{{types}}
+				{{content}}
 			</div>
-
-			<div id="t-pkg-details-type">
-				<h3>{{header}}</h3>
-
-				<h4>Constants</h4>
-				{{constants}}
-
-				<h4>Variables</h4>
-				{{variables}}
-
-				<h4>Functions</h4>
-				{{functions}}
+			<div id="t-pkg-details-heading">
+				<h{{headingnum}}>{{title}}</h{{headingnum}}>
+				{{content}}
+			</div>
+			<div id="t-pkg-details-function">
+				<pre><code>{{declaration}}</code></pre>	
+				{{usage}}
 			</div>
 		</div>
 

@@ -3,10 +3,31 @@
 var PkgDetailsController = {
 
     _converter: new showdown.Converter(),
+    _sections: [{
+            title: "",
+            key: "declaration",
+            code: true
+        },
+        {
+            title: "",
+            key: "usage"
+        },
+        {
+            title: "Constants",
+            key: "constants",
+            code: true
+        },
+        {
+            title: "Variables",
+            key: "variables",
+            code: true
+        }
+    ],
 
     $el: document.getElementById("pkg-details"),
     $t: document.getElementById("t-pkg-details"),
-    $typeT: document.getElementById("t-pkg-details-type"),
+    $headingT: document.getElementById("t-pkg-details-heading"),
+    $functionT: document.getElementById("t-pkg-details-function"),
 
     activate: function(data) {
         var $this = PkgDetailsController;
@@ -28,30 +49,10 @@ var PkgDetailsController = {
             return;
         }
 
-        var types = [];
-        if (res.docs.types) {
-            for (var t = 0; t < res.docs.types.length; t++) {
-                var ty = res.docs.types[t];
-                types.push(
-                    Template.apply($this.$typeT, {
-                        name: ty.name,
-                        header: ty.header,
-                        constants: $this._converter.makeHtml(ty.constants),
-                        variables: $this._converter.makeHtml(ty.variables),
-                        functions: $this._converter.makeHtml(ty.functions)
-                    })
-                );
-            }
-        }
-
         $this.$el.innerHTML = Template.apply($this.$t, {
             name: res.docs.name,
             import: res.docs.import,
-            package: $this._converter.makeHtml(res.docs.package),
-            constants: $this._converter.makeHtml(res.docs.constants),
-            variables: $this._converter.makeHtml(res.docs.variables),
-            functions: $this._converter.makeHtml(res.docs.functions),
-            types: types.join("")
+            content: $this._renderPkg(2, res.docs)
         });
 
         var pres = $this.$el.getElementsByTagName("pre");
@@ -62,5 +63,57 @@ var PkgDetailsController = {
 
         Loader.hide();
     },
+
+    _renderPkg: function(headingNum, t) {
+        var $this = PkgDetailsController,
+            content = [];
+
+        for (var s = 0; s < $this._sections.length; s++) {
+            var c = t[$this._sections[s].key];
+            if (!c || c.length === 0) {
+                continue;
+            }
+
+            content.push(
+                Template.apply($this.$headingT, {
+                    headingnum: headingNum,
+                    title: $this._sections[s].title,
+                    content: $this._sections[s].code ? "<pre><code>" + c + "</code></pre>" : $this._converter.makeHtml(c)
+                })
+            );
+        }
+        content.push(
+            $this._renderContent(headingNum, t['content'])
+        );
+
+        return content.join("");
+    },
+
+    _renderContent: function(headingNum, content) {
+        if (!content) {
+            return "";
+        }
+
+        var $this = PkgDetailsController,
+            res = [];
+
+        // content.sort(function(a, b) {
+        //     return (a.name > b.name) ? 1 : -1;
+        // });
+
+        for (var c = 0; c < content.length; c++) {
+            var isType = content[c].contentType === "TYPE";
+            res.push(
+                Template.apply($this.$headingT, {
+                    headingnum: headingNum,
+                    title: content[c].header,
+                    content: isType ? $this._renderPkg(headingNum + 1, content[c]) : Template.apply($this.$functionT, content[c])
+                })
+            )
+        }
+
+        return res.join("");
+    },
+
 
 };
