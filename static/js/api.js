@@ -46,7 +46,7 @@ var API = {
      * Sends a request to open the browser dev tools.
      */
     openDevTools: function() {
-        return API._get("/devtools");
+        return API._get("/debug");
     }
 
 };

@@ -8,21 +8,16 @@ import (
 	"sort"
 
 	"github.com/KyleBanks/goggles/goggles"
-	"github.com/alexflint/gallium"
 )
 
-type API struct {
-	w *gallium.Window
-}
-
-// bind attaches the API's routes to the default HTTP server.
-func (a *API) bind() {
-	http.HandleFunc("/api/pkg/list", a.pkgList)
-	http.HandleFunc("/api/devtools", a.showDevTools)
+// bindAPIRoutes attaches the API routes to the default HTTP server.
+func bindAPIRoutes() {
+	http.HandleFunc("/api/debug", debug)
+	http.HandleFunc("/api/pkg/list", pkgList)
 }
 
 // pkgList returns the names of each package in the $GOPATH.
-func (*API) pkgList(w http.ResponseWriter, r *http.Request) {
+func pkgList(w http.ResponseWriter, r *http.Request) {
 	pkgs, err := goggles.ListPkgs()
 	if err != nil {
 		log.Fatal(err)
@@ -34,7 +29,9 @@ func (*API) pkgList(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&pkgs)
 }
 
-func (a *API) showDevTools(w http.ResponseWriter, r *http.Request) {
-	a.w.OpenDevTools()
+func debug(w http.ResponseWriter, r *http.Request) {
+	if devTools != nil {
+		devTools.OpenDevTools()
+	}
 	fmt.Fprintf(w, "{}")
 }
