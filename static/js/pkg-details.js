@@ -102,7 +102,7 @@ var PkgDetailsController = {
         // });
 
         for (var c = 0; c < content.length; c++) {
-            var isType = content[c].contentType === "TYPE";
+            var isType = content[c].type === "TYPE";
             res.push(
                 Template.apply($this.$headingT, {
                     headingnum: headingNum,

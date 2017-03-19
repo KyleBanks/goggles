@@ -57,7 +57,7 @@ h6 {
 }
 
 /* Pkg List */
-#controllers #pkg-list .header {
+#pkg-list .header {
 	text-align: center;
 	margin: 0.5em 0;
 	padding: 0.2em;
@@ -65,11 +65,14 @@ h6 {
 	font-weight: bold;
 }
 
-#controllers #pkg-list .pkg {
+#pkg-list .pkg {
 	padding: 0.2em 1em;
 }
+#pkg-list .pkg.active {
+	font-weight: bold;
+}
 
-#controllers #pkg-list .search input::-webkit-input-placeholder {
+#pkg-list .search input::-webkit-input-placeholder {
 	font-size: 0.8em;
 	line-height: 1.5;
 }

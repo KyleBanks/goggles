@@ -37,3 +37,8 @@ h1, h2 {
 	border-color: #1C1D21;
 	color: #EEEFF7;
 }
+
+/* Pkg List */
+#pkg-list .pkg.active a, #pkg-list .pkg.active a:focus {
+	color: #92CDCF;
+}

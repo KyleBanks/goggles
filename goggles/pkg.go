@@ -15,12 +15,16 @@ import (
 )
 
 const (
-	Package  ContentType = "PACKAGE"
-	Function ContentType = "FUNCTION"
-	Type     ContentType = "TYPE"
+	// Package indicates package-level documentation.
+	Package DocType = "PACKAGE"
+	// Function indicates function-level documentation.
+	Function DocType = "FUNCTION"
+	// Type indicates type-level documentation.
+	Type DocType = "TYPE"
 )
 
-type ContentType string
+// DocType defines a type of documentation.
+type DocType string
 
 // Pkg represents a go source package.
 type Pkg struct {
@@ -32,7 +36,7 @@ type Pkg struct {
 
 // Doc represents documentation for a function, type, or package.
 type Doc struct {
-	ContentType ContentType `json:"contentType"`
+	Type DocType `json:"type"`
 
 	Name        string `json:"name"`
 	Header      string `json:"header"`
@@ -54,7 +58,7 @@ func (p *Pkg) makeDocs() error {
 	}
 
 	p.Docs = Doc{
-		ContentType: Package,
+		Type: Package,
 
 		Name:   doc.Name,
 		Import: fmt.Sprintf("import \"%v\"", p.Name),
@@ -105,7 +109,7 @@ func (p *Pkg) printFuncs(funcs []*doc.Func) []Doc {
 		}
 
 		docs = append(docs, Doc{
-			ContentType: Function,
+			Type: Function,
 
 			Name:        f.Name,
 			Usage:       f.Doc,
@@ -121,7 +125,7 @@ func (p *Pkg) printTypes(types []*doc.Type) []Doc {
 	var docs []Doc
 	for _, t := range types {
 		d := Doc{
-			ContentType: Type,
+			Type: Type,
 
 			Name:        t.Name,
 			Usage:       t.Doc,

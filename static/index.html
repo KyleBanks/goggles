@@ -34,7 +34,10 @@
 		<div id="templates">
 			<div id="t-pkg-list" class="pkg">
 	        	<span>
-	        		<a href="#" onclick="PkgListController.onPkgSelected('{{name}}')">{{displayName}}</a>
+	        		<a href="#" class="pkg-link" 
+	        		   onclick="PkgListController.onPkgSelected({{index}})">
+	        			{{displayName}}
+	        		</a>
 	        	</span>
 			</div>
 			<div id="t-pkg-list-header" class="header">

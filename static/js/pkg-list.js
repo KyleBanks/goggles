@@ -77,12 +77,17 @@ var PkgListController = {
             }
 
             contents.push(Template.apply($this.$t, {
-                displayName: displayName,
-                name: pkg.name,
+                index: i,
+                displayName: displayName
             }));
         }
 
         $this.$list.innerHTML = contents.join("");
+
+        // Select the first package.
+        if ($this._pkgList.length) {
+            $this.$list.getElementsByTagName("a")[0].click();
+        }
     },
 
     /**
@@ -90,10 +95,22 @@ var PkgListController = {
      *
      * @param name {String}
      */
-    onPkgSelected: function(name) {
+    onPkgSelected: function(idx) {
+        var $this = PkgListController,
+            pkg = $this._pkgList[idx];
+
         State.set(State.PkgDetails, {
-            name: name
+            name: pkg.name
         });
+
+        var $pkgs = $this.$list.getElementsByClassName("pkg");
+        for (var i = 0; i < $pkgs.length; i++) {
+            if (i == idx) {
+                $pkgs[i].classList.add("active");
+            } else {
+                $pkgs[i].classList.remove("active");
+            }
+        }
     },
 
     /**
