@@ -50,6 +50,13 @@
 				<h1>{{name}}</h1>
 				<code>{{import}}</code>
 
+				<div class="actions">
+					<button class="button button-outline" 
+						onclick="PkgDetailsController.openFileExplorer('{{fullName}}')">
+						Open Finder
+					</button>
+				</div>
+
 				{{content}}
 			</div>
 			<div id="t-pkg-details-heading" class="{{class}}">

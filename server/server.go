@@ -40,3 +40,4 @@ type service struct{}
 
 func (service) List() ([]*goggles.Pkg, error)          { return goggles.List() }
 func (service) Details(n string) (*goggles.Pkg, error) { return goggles.Details(n) }
+func (service) OpenFileExplorer(n string)              { goggles.OpenFileExplorer(n) }

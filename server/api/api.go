@@ -20,6 +20,7 @@ type DevTooler interface {
 type Packager interface {
 	List() ([]*goggles.Pkg, error)
 	Details(string) (*goggles.Pkg, error)
+	OpenFileExplorer(string)
 }
 
 // Bind attaches the API routes to the default HTTP server.
@@ -30,6 +31,9 @@ func Bind(d DevTooler, p Packager) {
 	// PKGs
 	http.HandleFunc("/api/pkg/list", pkgList)
 	http.HandleFunc("/api/pkg/details", pkgDetails)
+
+	// Applications
+	http.HandleFunc("/api/open/file-explorer", openFileExplorer)
 
 	// Misc.
 	http.HandleFunc("/api/debug", debug)

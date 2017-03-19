@@ -40,6 +40,10 @@ var PkgDetailsController = {
         $this.load(data.name);
     },
 
+    openFileExplorer: function(name) {
+        API.openFileExplorer(name);
+    },
+
     /**
      * Loads package details by the full package name (ex. github.com/foo/bar).
      * 
@@ -69,6 +73,7 @@ var PkgDetailsController = {
         // Render package docs
         $this.$el.innerHTML = Template.apply($this.$t, {
             name: res.docs.name,
+            fullName: res.name,
             import: res.docs.import,
             content: $this._renderPkg(0, res.docs)
         });

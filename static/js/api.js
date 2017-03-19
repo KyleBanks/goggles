@@ -54,6 +54,16 @@ var API = {
     },
 
     /**
+     * Opens the system file explorer to the package name provided.
+     *
+     * @param name {String}
+     * @param cb {function(Error, Object)}
+     */
+    openFileExplorer: function(name, cb) {
+        return API._get("/open/file-explorer?name=" + encodeURIComponent(name), cb);
+    },
+
+    /**
      * Sends a request to open the browser dev tools.
      */
     openDevTools: function() {
