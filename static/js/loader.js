@@ -30,10 +30,10 @@ var Loader = {
         var $this = Loader;
 
         if ($this._showCount > 0) {
-            $this.$el.classList.remove("hide");
+            $this.$el.classList.add("active");
             $this._swapImg();
         } else {
-            $this.$el.classList.add("hide");
+            $this.$el.classList.remove("active");
         }
     },
 

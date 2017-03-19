@@ -120,11 +120,6 @@ h6 {
 	padding: 0.25em 0 0 1.5em;
 }
 
-/* Templates */
-#templates {
-	display: none;
-}
-
 /* Loader */
 #loader {
 	z-index: 9001;
@@ -132,7 +127,14 @@ h6 {
 	height: 214px;
 	position: absolute;
 	top: 100%;
-	margin-top: -210px;
 	left: 12.5%;
 	margin-left: -100px;
+
+	transition-property: margin-top;
+	transition-duration: .5s;
+	transition-timing-function: ease;
+}
+
+#loader.active {
+	margin-top: -210px;
 }

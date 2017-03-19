@@ -39,11 +39,16 @@ var PkgDetailsController = {
         $this.load(data.name);
     },
 
-    load: function(pkg) {
+    /**
+     * Loads package details by the full package name (ex. github.com/foo/bar).
+     * 
+     * @param name {String}
+     */
+    load: function(name) {
         var $this = PkgDetailsController;
 
         Loader.show();
-        API.getPkg(pkg, $this._onLoad);
+        API.getPkg(name, $this._onLoad);
     },
 
     _onLoad: function(err, res) {
@@ -84,13 +89,14 @@ var PkgDetailsController = {
             }
 
             content.push(
-                Template.apply($this.headingTemplates[headingNum], {
-                    class: $this._sections[s].noCollapse ? "" : "collapsable",
+                $this._renderSection(headingNum, {
+                    noCollapse: $this._sections[s].noCollapse,
                     title: $this._sections[s].title,
                     content: $this._sections[s].code ? "<pre><code>" + c + "</code></pre>" : $this._converter.makeHtml(c)
                 })
             );
         }
+
         content.push(
             $this._renderContent(headingNum, pkg['content'])
         );
@@ -113,8 +119,7 @@ var PkgDetailsController = {
         for (var c = 0; c < content.length; c++) {
             var isType = content[c].type === "TYPE";
             res.push(
-                Template.apply($this.headingTemplates[headingNum], {
-                    class: "collapsable",
+                $this._renderSection(headingNum, {
                     title: content[c].header,
                     content: isType ? $this._renderPkg(headingNum + 1, content[c]) : Template.apply($this.$functionT, content[c])
                 })
@@ -122,6 +127,26 @@ var PkgDetailsController = {
         }
 
         return res.join("");
+    },
+
+    /**
+     * Renders an individual section.
+     *
+     * @param headingNum {Integer}
+     * @param data {Object}
+     * @param data.noCollapse {Boolean}
+     * @param data.title {String}
+     * @param data.content {String}
+     */
+    _renderSection: function(headingNum, data) {
+        var $this = PkgDetailsController;
+
+        return Template.apply($this.headingTemplates[headingNum], {
+            class: data.noCollapse ? "" : "collapsable",
+            titleClass: data.title.length ? "" : "hide",
+            title: data.title,
+            content: data.content
+        });
     },
 
     _bindCollapsableEvents: function() {

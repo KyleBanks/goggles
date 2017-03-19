@@ -11,7 +11,7 @@
 	</head>
 	<body>
 
-		<div id="loader" class="hide">
+		<div id="loader">
 			<img src="/static/img/loader-1.png">
 		</div>
 		
@@ -31,7 +31,7 @@
 		</div>
 
 		<!-- Templates -->
-		<div id="templates">
+		<div class="hide">
 			<!-- Pkg List -->
 			<div id="t-pkg-list" class="pkg">
 	        	<span>
@@ -53,7 +53,7 @@
 				{{content}}
 			</div>
 			<div id="t-pkg-details-heading" class="{{class}}">
-				<h2 class="trigger">
+				<h2 class="trigger {{titleClass}}">
 					<span class="collapsable-icon">&#10148;</span> {{title}}
 				</h2>
 				<div class="content pad">
@@ -61,7 +61,7 @@
 				</div>
 			</div>
 			<div id="t-pkg-details-subheading">
-				<h3>
+				<h3 class="{{titleClass}}">
 					{{title}}
 				</h3>
 				<div class="pad">
