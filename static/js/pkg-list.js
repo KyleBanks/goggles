@@ -52,7 +52,8 @@ var PkgListController = {
             search = $this.$search.value.toLowerCase(),
             contents = [];
 
-        var header = null;
+        var header = null,
+            renderCount = 0;
         for (var i = 0; i < $this._pkgList.length; i++) {
             var pkg = $this._pkgList[i];
 
@@ -77,15 +78,17 @@ var PkgListController = {
             }
 
             contents.push(Template.apply($this.$t, {
-                index: i,
+                index: renderCount,
                 displayName: displayName
             }));
+
+            renderCount++;
         }
 
         $this.$list.innerHTML = contents.join("");
 
         // Select the first package.
-        if ($this._pkgList.length) {
+        if (renderCount > 0) {
             $this.$list.getElementsByTagName("a")[0].click();
         }
     },

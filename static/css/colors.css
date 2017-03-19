@@ -18,10 +18,6 @@ pre, code {
 	background: #31353D;
 }
 
-h1, h2 {
-	border-bottom-color: #31353D;
-}
-
 /* Controllers */
 #controllers #pkg-list {
 	background: #31353D;

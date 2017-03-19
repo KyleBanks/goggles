@@ -20,13 +20,11 @@ h1 {
 }
 h2 {
 	font-size: 2.5rem;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	margin: 1em 0;
+	margin: 0.5em 0 0.25em 0;
 }
 h3 {
 	font-size: 2rem;
-	margin: 1em 0;
+	margin: 0.5em 0;
 }
 h4 {
 	font-size: 1.5rem;
@@ -68,18 +66,58 @@ h6 {
 #pkg-list .pkg {
 	padding: 0.2em 1em;
 }
+
 #pkg-list .pkg.active {
 	font-weight: bold;
+}
+
+#pkg-list .search input {
+	text-align: center;
 }
 
 #pkg-list .search input::-webkit-input-placeholder {
 	font-size: 0.8em;
 	line-height: 1.5;
+	text-align: center;
 }
 
 /* Pkg Details */
 #pkg-details h4 {
 	margin: 0.5em 0;
+}
+
+#pkg-details .collapsable-icon {
+	display: none;
+}
+
+#pkg-details .collapsable .trigger {
+	cursor: pointer;
+}
+
+#pkg-details .collapsable .collapsable-icon {
+	font-size: 1.5rem;
+	display: inline-block;
+	margin: 0 1em 0 0;
+
+	transition-property: all;
+	transition-duration: .5s;
+	transition-timing-function: ease;
+}
+#pkg-details .collapsable.open .collapsable-icon {
+	-webkit-transform: rotate(90deg);
+}
+
+#pkg-details .collapsable .content {
+	overflow-y: hidden;
+	max-height: 0;
+
+	transition-property: max-height;
+	transition-duration: .5s;
+	transition-timing-function: ease;
+}
+
+#pkg-details .pad {
+	padding: 0.25em 0 0 1.5em;
 }
 
 /* Templates */
@@ -95,6 +133,6 @@ h6 {
 	position: absolute;
 	top: 100%;
 	margin-top: -210px;
-	left: 16.5%;
+	left: 12.5%;
 	margin-left: -100px;
 }

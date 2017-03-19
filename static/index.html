@@ -19,19 +19,20 @@
 		<div id="controllers" class="container">
 			<div class="row">
 				
-				<div id="pkg-list" class="column column-33">
+				<div id="pkg-list" class="column column-25">
 					<div class="search">
 						<input type="text" placeholder="Search" id="txt-pkg-list-search">
 					</div>
 					<div id="pkg-list-content"></div>
 				</div>
 
-				<div id="pkg-details" class="column column-67"></div>
+				<div id="pkg-details" class="column column-75"></div>
 			</div>
 		</div>
 
 		<!-- Templates -->
 		<div id="templates">
+			<!-- Pkg List -->
 			<div id="t-pkg-list" class="pkg">
 	        	<span>
 	        		<a href="#" class="pkg-link" 
@@ -44,16 +45,28 @@
 	        	<span>{{name}}</span>
 			</div>
 
-
+			<!-- Pkg Details -->
 			<div id="t-pkg-details">
 				<h1>{{name}}</h1>
 				<code>{{import}}</code>
 
 				{{content}}
 			</div>
-			<div id="t-pkg-details-heading">
-				<h{{headingnum}}>{{title}}</h{{headingnum}}>
-				{{content}}
+			<div id="t-pkg-details-heading" class="{{class}}">
+				<h2 class="trigger">
+					<span class="collapsable-icon">&#10148;</span> {{title}}
+				</h2>
+				<div class="content pad">
+					{{content}}
+				</div>
+			</div>
+			<div id="t-pkg-details-subheading">
+				<h3>
+					{{title}}
+				</h3>
+				<div class="pad">
+					{{content}}
+				</div>
 			</div>
 			<div id="t-pkg-details-function">
 				<pre><code>{{declaration}}</code></pre>	
