@@ -17,8 +17,8 @@ func init() {
 	log.Printf("$GOPATH=%v, srcdir=%v", gopath(), srcdir())
 }
 
-// ListPkgs returns a list of all packages in the $GOPATH.
-func ListPkgs() ([]*Pkg, error) {
+// List returns a list of all packages in the $GOPATH.
+func List() ([]*Pkg, error) {
 	ch := make(chan *Pkg, 0)
 	var expect int
 

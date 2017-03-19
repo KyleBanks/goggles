@@ -5,13 +5,11 @@ import (
 	"log"
 	"net/http"
 	"sort"
-
-	"github.com/KyleBanks/goggles/goggles"
 )
 
 // pkgList returns the names of each package in the $GOPATH.
 func pkgList(w http.ResponseWriter, r *http.Request) {
-	pkgs, err := goggles.ListPkgs()
+	pkgs, err := packager.List()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,6 +17,7 @@ func pkgList(w http.ResponseWriter, r *http.Request) {
 	sort.Slice(pkgs, func(i, j int) bool {
 		return pkgs[i].Name < pkgs[j].Name
 	})
+
 	json.NewEncoder(w).Encode(&pkgs)
 }
 
@@ -28,7 +27,7 @@ func pkgDetails(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	name := q.Get("name")
 
-	p, err := goggles.Details(name)
+	p, err := packager.Details(name)
 	if err != nil {
 		log.Fatal(err)
 	}

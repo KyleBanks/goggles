@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"path/filepath"
 
+	"github.com/KyleBanks/goggles/goggles"
 	"github.com/KyleBanks/goggles/server/api"
 )
 
@@ -18,12 +19,11 @@ import (
 //    /goggles
 //    /static/...
 func Start(d api.DevTooler, root string, port int) {
-	log.Printf("server.Start(%v, %v)", root, port)
 	root = filepath.Join(root, "static")
 
 	fs := http.FileServer(http.Dir(root))
 	http.Handle("/", http.StripPrefix("/static/", fs))
-	api.Bind(d)
+	api.Bind(d, service{})
 
 	http.ListenAndServe(fmt.Sprintf(":%v", port), wrap(http.DefaultServeMux))
 }
@@ -35,3 +35,8 @@ func wrap(handler http.Handler) http.Handler {
 		handler.ServeHTTP(w, r)
 	})
 }
+
+type service struct{}
+
+func (service) List() ([]*goggles.Pkg, error)          { return goggles.List() }
+func (service) Details(n string) (*goggles.Pkg, error) { return goggles.Details(n) }
