@@ -8,6 +8,7 @@ var PkgListController = {
     $headerT: document.getElementById("t-pkg-list-header"),
 
     _pkgList: null,
+    _renderedPkgList: null,
 
     activate: function() {
         var $this = PkgListController;
@@ -54,6 +55,7 @@ var PkgListController = {
 
         var header = null,
             renderCount = 0;
+        $this._renderedPkgList = [];
         for (var i = 0; i < $this._pkgList.length; i++) {
             var pkg = $this._pkgList[i];
 
@@ -83,6 +85,7 @@ var PkgListController = {
             }));
 
             renderCount++;
+            $this._renderedPkgList.push(pkg);
         }
 
         $this.$list.innerHTML = contents.join("");
@@ -100,7 +103,7 @@ var PkgListController = {
      */
     onPkgSelected: function(idx) {
         var $this = PkgListController,
-            pkg = $this._pkgList[idx];
+            pkg = $this._renderedPkgList[idx];
 
         State.set(State.PkgDetails, {
             name: pkg.name
