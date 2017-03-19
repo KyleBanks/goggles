@@ -2,6 +2,14 @@
 
 var PkgDetailsController = {
 
+    $el: document.getElementById("pkg-details"),
+    $t: document.getElementById("t-pkg-details"),
+    headingTemplates: [
+        document.getElementById("t-pkg-details-heading"),
+        document.getElementById("t-pkg-details-subheading")
+    ],
+    $functionT: document.getElementById("t-pkg-details-function"),
+
     _converter: new showdown.Converter(),
     _sections: [{
             title: "",
@@ -24,14 +32,7 @@ var PkgDetailsController = {
             code: true
         }
     ],
-
-    $el: document.getElementById("pkg-details"),
-    $t: document.getElementById("t-pkg-details"),
-    headingTemplates: [
-        document.getElementById("t-pkg-details-heading"),
-        document.getElementById("t-pkg-details-subheading")
-    ],
-    $functionT: document.getElementById("t-pkg-details-function"),
+    _pkg: null,
 
     activate: function(data) {
         var $this = PkgDetailsController;
@@ -47,6 +48,11 @@ var PkgDetailsController = {
     load: function(name) {
         var $this = PkgDetailsController;
 
+        if (name === $this._pkg) {
+            return;
+        }
+        $this._pkg = name;
+
         Loader.show();
         API.getPkg(name, $this._onLoad);
     },
@@ -55,6 +61,8 @@ var PkgDetailsController = {
         var $this = PkgDetailsController;
         if (err) {
             console.error(err);
+            return;
+        } else if ($this._pkg !== res.name) {
             return;
         }
 

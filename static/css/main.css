@@ -103,6 +103,7 @@ h6 {
 	transition-duration: .5s;
 	transition-timing-function: ease;
 }
+
 #pkg-details .collapsable.open .collapsable-icon {
 	-webkit-transform: rotate(90deg);
 }
