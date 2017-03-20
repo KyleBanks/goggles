@@ -3,13 +3,13 @@ var gulp = require('gulp'),
 	jshint = require('gulp-jshint');
  
 gulp.task('beautify', function() {
-  return gulp.src('./static/js/*.js')
+  return gulp.src('./_static/js/*.js')
     .pipe(beautify())
-    .pipe(gulp.dest('./static/js/'))
+    .pipe(gulp.dest('./_static/js/'))
 });
 
 gulp.task('lint', function() {
-  return gulp.src('./static/js/*.js')
+  return gulp.src('./_static/js/*.js')
     .pipe(jshint());
 });
 

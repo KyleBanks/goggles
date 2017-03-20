@@ -27,7 +27,7 @@ build: | clean gulp
 	@go build -v -o bin/goggles $(INSTALL_PKG)
 	@gallium-bundle bin/goggles
 	@mkdir -p goggles.app/Contents/MacOS/static
-	@cp -r ./static/ goggles.app/Contents/MacOS/static
+	@cp -r ./_static/ goggles.app/Contents/MacOS/static
 .PHONY: build
 
 # Runs goggles.
