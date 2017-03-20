@@ -48,5 +48,4 @@ logs:
 # Remote includes require 'mmake' 
 # github.com/tj/mmake
 include github.com/KyleBanks/make/go/sanity
-include github.com/KyleBanks/make/go/release
 include github.com/KyleBanks/make/git/precommit
