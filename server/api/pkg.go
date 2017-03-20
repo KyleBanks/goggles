@@ -9,7 +9,7 @@ import (
 
 // pkgList returns the names of each package in the $GOPATH.
 func pkgList(w http.ResponseWriter, r *http.Request) {
-	pkgs, err := packager.List()
+	pkgs, err := provider.List()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -27,7 +27,7 @@ func pkgDetails(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	name := q.Get("name")
 
-	p, err := packager.Details(name)
+	p, err := provider.Details(name)
 	if err != nil {
 		log.Fatal(err)
 	}

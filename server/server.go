@@ -6,9 +6,16 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/KyleBanks/goggles/goggles"
+	"github.com/KyleBanks/goggles/pkg"
 	"github.com/KyleBanks/goggles/server/api"
+	"github.com/KyleBanks/goggles/sys"
 )
+
+// DevTools defines a type that can be used to open
+// developer tools for debugging the server and application.
+type DevTools interface {
+	OpenDevTools()
+}
 
 // Start prepares and starts the HTTP server.
 //
@@ -18,12 +25,16 @@ import (
 // /foo/bar
 //    /goggles
 //    /static/...
-func Start(d api.DevTooler, root string, port int) {
+func Start(d DevTools, root string, port int) {
 	root = filepath.Join(root, "static")
 
 	fs := http.FileServer(http.Dir(root))
 	http.Handle("/", http.StripPrefix("/static/", fs))
-	api.Bind(d, service{})
+	api.Bind(struct {
+		DevTools
+		pkg.Service
+		sys.System
+	}{d, pkg.Default, sys.Default})
 
 	http.ListenAndServe(fmt.Sprintf(":%v", port), wrap(http.DefaultServeMux))
 }
@@ -35,9 +46,3 @@ func wrap(handler http.Handler) http.Handler {
 		handler.ServeHTTP(w, r)
 	})
 }
-
-type service struct{}
-
-func (service) List() ([]*goggles.Pkg, error)          { return goggles.List() }
-func (service) Details(n string) (*goggles.Pkg, error) { return goggles.Details(n) }
-func (service) OpenFileExplorer(n string)              { goggles.OpenFileExplorer(n) }

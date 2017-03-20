@@ -7,6 +7,6 @@ import (
 
 // debug opens the developer tools for debugging.
 func debug(w http.ResponseWriter, r *http.Request) {
-	devTools.OpenDevTools()
+	provider.OpenDevTools()
 	fmt.Fprintf(w, "{}")
 }

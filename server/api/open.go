@@ -10,6 +10,6 @@ func openFileExplorer(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 	name := q.Get("name")
 
-	packager.OpenFileExplorer(name)
+	provider.OpenFileExplorer(name)
 	fmt.Fprintf(w, "{}")
 }

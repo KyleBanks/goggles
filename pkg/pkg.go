@@ -1,4 +1,4 @@
-package goggles
+package pkg
 
 import (
 	"bytes"
@@ -8,26 +8,25 @@ import (
 	"go/printer"
 	"go/token"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/KyleBanks/depth"
 )
 
 const (
-	// Package indicates package-level documentation.
-	Package DocType = "PACKAGE"
-	// Function indicates function-level documentation.
-	Function DocType = "FUNCTION"
-	// Type indicates type-level documentation.
-	Type DocType = "TYPE"
+	// PackageDoc indicates package-level documentation.
+	PackageDoc DocType = "PACKAGE"
+	// FunctionDoc indicates function-level documentation.
+	FunctionDoc DocType = "FUNCTION"
+	// TypeDoc indicates type-level documentation.
+	TypeDoc DocType = "TYPE"
 )
 
 // DocType defines a type of documentation.
 type DocType string
 
-// Pkg represents a go source package.
-type Pkg struct {
+// Package represents a go source package.
+type Package struct {
 	depth.Pkg
 
 	files *token.FileSet
@@ -49,8 +48,27 @@ type Doc struct {
 	Content   []Doc  `json:"content"`
 }
 
-// makeDocs retrieves the documentation for a package and attaches it to the Pkg.
-func (p *Pkg) makeDocs() error {
+// NewPackage attempts to resolve a go package from the path provided.
+//
+// The path can be either the absolute path (ex. /foo/bar/package)
+// or the import path (ex. github.com/foo/bar).
+func NewPackage(path string) (*Package, error) {
+	t := depth.Tree{
+		ResolveTest:     false,
+		ResolveInternal: false,
+		MaxDepth:        1,
+	}
+	if err := t.Resolve(path); err != nil {
+		return nil, err
+	}
+
+	return &Package{
+		Pkg: *t.Root,
+	}, nil
+}
+
+// makeDocs retrieves the documentation for a package and attaches it to the Package.
+func (p *Package) makeDocs() error {
 	p.files = token.NewFileSet()
 	doc, err := p.parseDocs()
 	if err != nil {
@@ -58,7 +76,7 @@ func (p *Pkg) makeDocs() error {
 	}
 
 	p.Docs = Doc{
-		Type: Package,
+		Type: PackageDoc,
 
 		Name:   doc.Name,
 		Import: fmt.Sprintf("import \"%v\"", p.Name),
@@ -74,13 +92,13 @@ func (p *Pkg) makeDocs() error {
 }
 
 // parseDocs parses the package documentation.
-func (p *Pkg) parseDocs() (*doc.Package, error) {
+func (p *Package) parseDocs() (*doc.Package, error) {
 	filter := func(file os.FileInfo) bool {
 		name := file.Name()
 		return !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".go") && !strings.HasSuffix(name, "_test.go")
 	}
 
-	pkgs, err := parser.ParseDir(p.files, filepath.Join(srcdir(), p.Name), filter, parser.ParseComments)
+	pkgs, err := parser.ParseDir(p.files, AbsPath(p.Name), filter, parser.ParseComments)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +110,7 @@ func (p *Pkg) parseDocs() (*doc.Package, error) {
 	return nil, nil
 }
 
-func (p *Pkg) printValues(vals []*doc.Value) string {
+func (p *Package) printValues(vals []*doc.Value) string {
 	var b bytes.Buffer
 	for _, v := range vals {
 		fmt.Fprintf(&b, "%s\n%s", p.printToken(v.Decl), p.printToken(v.Doc))
@@ -100,7 +118,7 @@ func (p *Pkg) printValues(vals []*doc.Value) string {
 	return b.String()
 }
 
-func (p *Pkg) printFuncs(funcs []*doc.Func) []Doc {
+func (p *Package) printFuncs(funcs []*doc.Func) []Doc {
 	var docs []Doc
 	for _, f := range funcs {
 		var receiver string
@@ -109,7 +127,7 @@ func (p *Pkg) printFuncs(funcs []*doc.Func) []Doc {
 		}
 
 		docs = append(docs, Doc{
-			Type: Function,
+			Type: FunctionDoc,
 
 			Name:        f.Name,
 			Usage:       f.Doc,
@@ -121,11 +139,11 @@ func (p *Pkg) printFuncs(funcs []*doc.Func) []Doc {
 	return docs
 }
 
-func (p *Pkg) printTypes(types []*doc.Type) []Doc {
+func (p *Package) printTypes(types []*doc.Type) []Doc {
 	var docs []Doc
 	for _, t := range types {
 		d := Doc{
-			Type: Type,
+			Type: TypeDoc,
 
 			Name:        t.Name,
 			Usage:       t.Doc,
@@ -144,7 +162,7 @@ func (p *Pkg) printTypes(types []*doc.Type) []Doc {
 	return docs
 }
 
-func (p *Pkg) printToken(t interface{}) string {
+func (p *Package) printToken(t interface{}) string {
 	var b bytes.Buffer
 	conf := printer.Config{
 		Mode:     printer.UseSpaces,
