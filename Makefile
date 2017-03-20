@@ -14,7 +14,9 @@ run: | run.goggles logs
 
 # Runs gulp on the static assets.
 gulp:
-	@gulp
+	@cd _static ; \
+	npm install ; \
+	gulp 
 .PHONY: gulp
 
 # Cleans any built artifacts.
