@@ -1,4 +1,4 @@
-package pkg
+package goggles
 
 import (
 	"log"
@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/KyleBanks/depth"
+	"github.com/KyleBanks/goggles/pkg/sys"
 )
 
 // Default is the default Service.
@@ -45,10 +46,13 @@ func (Service) Details(name string) (*Package, error) {
 	return p, nil
 }
 
+// walkPackages sends a Package on the provided channel for each package found in
+// the gopath.
+//
+// The return value is the number of packages to expect to receive on the channel.
 func (Service) walkPackages(ch chan *Package) int {
-	var expect int
-
-	filepath.Walk(srcdir(), func(path string, info os.FileInfo, err error) error {
+	var count int
+	visit := func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return nil
 		} else if !info.IsDir() {
@@ -60,7 +64,7 @@ func (Service) walkPackages(ch chan *Package) int {
 			return nil
 		}
 
-		expect++
+		count++
 		go func(path string, ch chan *Package) {
 			p, err := NewPackage(path)
 			if err != nil {
@@ -74,7 +78,8 @@ func (Service) walkPackages(ch chan *Package) int {
 			ch <- p
 		}(path, ch)
 		return nil
-	})
+	}
 
-	return expect
+	filepath.Walk(sys.Srcdir(), visit)
+	return count
 }

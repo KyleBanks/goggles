@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"net/http"
 )
 
@@ -11,5 +10,5 @@ func openFileExplorer(w http.ResponseWriter, r *http.Request) {
 	name := q.Get("name")
 
 	provider.OpenFileExplorer(name)
-	fmt.Fprintf(w, "{}")
+	outputEmpty(w)
 }

@@ -1,15 +1,16 @@
 VERSION = 0.1.0
 
-RELEASE_PKG = ./cmd/goggles
-INSTALL_PKG = $(RELEASE_PKG)
+INSTALL_PKG = ./cmd/goggles
 
 APP_FOLDER = bin/goggles.app
+APP_STATIC_FOLDER = $(APP_FOLDER)/Contents/MacOS/static
+LOG_FILE = ~/Library/Logs/goggles.log
 
 # Runs goggles and opens the logs.
 #
 # This is the default command.
-run: | run.goggles logs
-	@# Do Nothing
+run: | run.goggles
+	@tail -100f $(LOG_FILE)
 .PHONY: run.logs
 
 # Runs gulp on the static assets.
@@ -22,7 +23,7 @@ gulp:
 # Cleans any built artifacts.
 clean:
 	@rm -rf $(APP_FOLDER)
-	@rm -f ~/Library/Logs/goggles.log
+	@rm -f $(LOG_FILE)
 .PHONY: clean
 
 # Builds goggles to the ./bin directory.
@@ -30,22 +31,23 @@ build: | clean gulp
 	@mkdir -p bin/
 	@go build -v -o bin/goggles $(INSTALL_PKG)
 	@gallium-bundle bin/goggles --output $(APP_FOLDER)
-	@mkdir -p $(APP_FOLDER)/Contents/MacOS/static
-	@cp -r ./_static/ $(APP_FOLDER)/Contents/MacOS/static
+	@mkdir -p $(APP_STATIC_FOLDER)
+	@cp -r ./_static/ $(APP_STATIC_FOLDER)
 .PHONY: build
 
-# Runs goggles.
+# Runs the goggles application.
 run.goggles: | build
 	@pkill goggles || true
 	@open $(APP_FOLDER)
 .PHONY: run
 
-# Opens the logs.
-logs: 
-	@tail -100f ~/Library/Logs/goggles.log
-.PHONY: logs
+# Runs test cases in Docker.
+test.docker:
+	@docker build -t goggles-test .
+	@docker run -it goggles-test
+.PHONY: test.docker
 
 # Remote includes require 'mmake' 
 # github.com/tj/mmake
-include github.com/KyleBanks/make/go/sanity
 include github.com/KyleBanks/make/git/precommit
+include github.com/KyleBanks/make/go/sanity

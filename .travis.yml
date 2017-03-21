@@ -1,0 +1,11 @@
+language: go
+sudo: false
+go:
+  - 1.7.x
+  - 1.8.x
+before_install:
+  - go get github.com/mattn/goveralls
+
+# Note: Need to ignore all cmd/goggles files because gallium will not work on the linix travis instances.
+script:
+  - $HOME/gopath/bin/goveralls -service=travis-ci -ignore $(ls -dm cmd/goggles/* | tr -d '[:space:]')

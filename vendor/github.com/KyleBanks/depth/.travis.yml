@@ -1,0 +1,10 @@
+language: go
+sudo: false
+go:
+  - 1.7.x
+  - 1.8.x
+before_install:
+  - go get github.com/mattn/goveralls
+script:
+  - $HOME/gopath/bin/goveralls -service=travis-ci
+#script: go test $(go list ./... | grep -v vendor/)

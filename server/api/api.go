@@ -1,9 +1,11 @@
 package api
 
 import (
+	"fmt"
+	"io"
 	"net/http"
 
-	"github.com/KyleBanks/goggles/pkg"
+	"github.com/KyleBanks/goggles/goggles"
 )
 
 var (
@@ -13,24 +15,28 @@ var (
 // Provider is a type that provides access to package data, the host operating system,
 // and anything else the API requires to function.
 type Provider interface {
-	List() ([]*pkg.Package, error)
-	Details(string) (*pkg.Package, error)
+	List() ([]*goggles.Package, error)
+	Details(string) (*goggles.Package, error)
 
 	OpenDevTools()
 	OpenFileExplorer(string)
 }
 
 // Bind attaches the API routes to the default HTTP server.
-func Bind(p Provider) {
+func Bind(p Provider, mux *http.ServeMux) {
 	provider = p
 
 	// PKGs
-	http.HandleFunc("/api/pkg/list", pkgList)
-	http.HandleFunc("/api/pkg/details", pkgDetails)
+	mux.HandleFunc("/api/pkg/list", pkgList)
+	mux.HandleFunc("/api/pkg/details", pkgDetails)
 
 	// Applications
-	http.HandleFunc("/api/open/file-explorer", openFileExplorer)
+	mux.HandleFunc("/api/open/file-explorer", openFileExplorer)
 
 	// Misc.
-	http.HandleFunc("/api/debug", debug)
+	mux.HandleFunc("/api/debug", debug)
+}
+
+func outputEmpty(w io.Writer) {
+	fmt.Fprintf(w, "{}")
 }

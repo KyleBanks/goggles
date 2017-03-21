@@ -1,0 +1,21 @@
+{
+    "memo": "676d578a4e6543a8313481e34c22f868578d1826e6a292ad168bf0255adf937b",
+    "projects": [
+        {
+            "name": "github.com/KyleBanks/depth",
+            "branch": "master",
+            "revision": "f23af3eb15ee1eed9160ba37323070450168898d",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/alexflint/gallium",
+            "branch": "master",
+            "revision": "8bad16a07bf10a5b825dd2fb5bfc56b5edbb09d8",
+            "packages": [
+                "."
+            ]
+        }
+    ]
+}

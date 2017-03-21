@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "github.com/KyleBanks/depth": {
+            "branch": "master"
+        },
+        "github.com/alexflint/gallium": {
+            "branch": "master"
+        }
+    }
+}

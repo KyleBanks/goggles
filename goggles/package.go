@@ -1,4 +1,4 @@
-package pkg
+package goggles
 
 import (
 	"bytes"
@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/KyleBanks/depth"
+	"github.com/KyleBanks/goggles/pkg/sys"
 )
 
 const (
@@ -30,7 +31,7 @@ type Package struct {
 	depth.Pkg
 
 	files *token.FileSet
-	Docs  Doc `json:"docs"`
+	Docs  *Doc `json:"docs"`
 }
 
 // Doc represents documentation for a function, type, or package.
@@ -75,7 +76,7 @@ func (p *Package) makeDocs() error {
 		return err
 	}
 
-	p.Docs = Doc{
+	p.Docs = &Doc{
 		Type: PackageDoc,
 
 		Name:   doc.Name,
@@ -98,7 +99,7 @@ func (p *Package) parseDocs() (*doc.Package, error) {
 		return !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".go") && !strings.HasSuffix(name, "_test.go")
 	}
 
-	pkgs, err := parser.ParseDir(p.files, AbsPath(p.Name), filter, parser.ParseComments)
+	pkgs, err := parser.ParseDir(p.files, sys.AbsPath(p.Name), filter, parser.ParseComments)
 	if err != nil {
 		return nil, err
 	}
