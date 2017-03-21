@@ -8,4 +8,5 @@ before_install:
 
 # Note: Need to ignore all cmd/goggles files because gallium will not work on the linix travis instances.
 script:
-  - $HOME/gopath/bin/goveralls -service=travis-ci -ignore $(ls -dm cmd/goggles/* | tr -d '[:space:]')
+  - rm -rf cmd/goggles/
+  - $HOME/gopath/bin/goveralls -service=travis-ci 
