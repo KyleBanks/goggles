@@ -48,7 +48,23 @@ test.docker:
 	@docker run -it goggles-test
 .PHONY: test.docker
 
-# Remote includes require 'mmake' 
-# github.com/tj/mmake
-include github.com/KyleBanks/make/git/precommit
-include github.com/KyleBanks/make/go/sanity
+# Runs test suit, vet, golint, and fmt.
+sanity:
+	@echo "---------------- TEST ----------------"
+	@go list ./... | grep -v vendor/ | xargs go test --cover 
+
+	@echo "---------------- VET ----------------"
+	@go list ./... | grep -v vendor/ | xargs go vet 
+
+	@echo "---------------- LINT ----------------"
+	@go list ./... | grep -v vendor/ | xargs golint
+
+	@echo "---------------- FMT ----------------"
+	@go list ./... | grep -v vendor/ | xargs go fmt
+.PHONY: sanity
+
+# Installs a pre-commit Git hook that executes "make sanity" prior to commiting.
+precommit:
+	@echo "make sanity" > .git/hooks/pre-commit
+	@chmod +x .git/hooks/pre-commit
+.PHONY: precommit
