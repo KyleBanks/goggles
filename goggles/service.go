@@ -9,9 +9,6 @@ import (
 	"github.com/KyleBanks/goggles/pkg/sys"
 )
 
-// Default is the default Service.
-var Default Service
-
 // Service is a pkg service that can access go packages.
 type Service struct{}
 

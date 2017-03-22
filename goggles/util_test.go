@@ -39,3 +39,21 @@ func Test_ignorePkg(t *testing.T) {
 		}
 	}
 }
+
+func Test_repo(t *testing.T) {
+	tests := []struct {
+		in  string
+		out string
+	}{
+		{"github.com/foo/bar", "github.com/foo/bar"},
+		{"github.com/foo/bar/baz/etc", "github.com/foo/bar"},
+		{"github.com/foo", ""},
+		{"github.com", ""},
+	}
+
+	for idx, tt := range tests {
+		if out := repo(tt.in); out != tt.out {
+			t.Fatalf("[%v] Unexpected repo, expected=%v, got=%v", idx, tt.out, out)
+		}
+	}
+}

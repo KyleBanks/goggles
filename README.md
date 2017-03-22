@@ -37,6 +37,8 @@ Goggles was developed by [Kyle Banks](https://twitter.com/kylewbanks).
 
 The [Gopher](./_static/img) loading images were created by [Ashley McNamara](https://twitter.com/ashleymcnamara) and inspired by [Renee French](http://reneefrench.blogspot.co.uk/).
 
+![Gopher](./_static/img/loader-1.png)
+
 ## License
 
 Goggles is available under the [Apache 2.0](./LICENSE) license.

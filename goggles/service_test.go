@@ -46,5 +46,7 @@ func TestService_Details(t *testing.T) {
 		t.Fatalf("Unexpected Name, expected=%v, got=%v", name, p.Docs.Name)
 	} else if imp := "import \"github.com/KyleBanks/goggles/goggles\""; p.Docs.Import != imp {
 		t.Fatalf("Unexpected Import, expected=%v, got=%v", imp, p.Docs.Import)
+	} else if repo := "github.com/KyleBanks/goggles"; p.Docs.Repository != repo {
+		t.Fatalf("Unexpected Repository, expected=%v, got=%v", repo, p.Docs.Repository)
 	}
 }

@@ -6,7 +6,6 @@ import (
 
 func Test_NewPackage(t *testing.T) {
 	path := "github.com/KyleBanks/goggles/goggles"
-
 	p, err := NewPackage(path)
 	if err != nil {
 		t.Fatal(err)

@@ -4,11 +4,11 @@ import (
 	"os/exec"
 )
 
-// Runner is the default command runner used by the sys package.
-var Runner ICmdRunner = CmdRunner{}
+// DefaultRunner is the default command runner used by the sys package.
+var DefaultRunner Runner = CmdRunner{}
 
-// ICmdRunner defines a type that can run system commands.
-type ICmdRunner interface {
+// Runner defines a type that can run system commands.
+type Runner interface {
 	Run(string, ...string) error
 }
 

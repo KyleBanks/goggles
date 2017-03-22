@@ -2,7 +2,7 @@ VERSION = 0.1.0
 
 INSTALL_PKG = ./cmd/goggles
 
-APP_FOLDER = bin/goggles.app
+APP_FOLDER = ./bin/goggles.app
 APP_STATIC_FOLDER = $(APP_FOLDER)/Contents/MacOS/static
 LOG_FILE = ~/Library/Logs/goggles.log
 
@@ -33,6 +33,7 @@ build: | clean gulp
 	@gallium-bundle bin/goggles --output $(APP_FOLDER)
 	@mkdir -p $(APP_STATIC_FOLDER)
 	@cp -r ./_static/ $(APP_STATIC_FOLDER)
+	@rm -rf $(APP_STATIC_FOLDER)/node_modules
 .PHONY: build
 
 # Runs the goggles application.

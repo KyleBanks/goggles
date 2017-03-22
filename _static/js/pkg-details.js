@@ -9,6 +9,7 @@ var PkgDetailsController = {
         document.getElementById("t-pkg-details-subheading")
     ],
     $functionT: document.getElementById("t-pkg-details-function"),
+    $badgeT: document.getElementById("t-pkg-details-badge"),
 
     _converter: new showdown.Converter(),
     _sections: [{
@@ -41,7 +42,15 @@ var PkgDetailsController = {
     },
 
     openFileExplorer: function(name) {
-        API.openFileExplorer(name);
+        return API.openFileExplorer(name);
+    },
+
+    openTerminal: function(name) {
+        return API.openTerminal(name);
+    },
+
+    openUrl: function(url) {
+        return API.openUrl(url);
     },
 
     /**
@@ -57,7 +66,6 @@ var PkgDetailsController = {
         }
         $this._pkg = name;
 
-        Loader.show();
         API.getPkg(name, $this._onLoad);
     },
 
@@ -74,8 +82,10 @@ var PkgDetailsController = {
         $this.$el.innerHTML = Template.apply($this.$t, {
             name: res.docs.name,
             fullName: res.name,
+            repository: res.docs.repository,
             import: res.docs.import,
-            content: $this._renderPkg(0, res.docs)
+            content: $this._renderPkg(0, res.docs),
+            badges: $this._renderBadges(res)
         });
 
         // Bind events
@@ -87,8 +97,6 @@ var PkgDetailsController = {
             pres[i].classList.add("prettyprint");
         }
         PR.prettyPrint();
-
-        Loader.hide();
     },
 
     _renderPkg: function(headingNum, pkg) {
@@ -162,6 +170,54 @@ var PkgDetailsController = {
         });
     },
 
+    /**
+     * Renders the README-style badges for the package/repository.
+     *
+     * @param pkg {Object}
+     */
+    _renderBadges: function(pkg) {
+        var $this = PkgDetailsController,
+            badges = [];
+
+        badges.push(
+            Template.apply($this.$badgeT, {
+                url: "https://godoc.org/" + pkg.name,
+                image: "https://godoc.org/" + pkg.name + "?status.svg",
+                width: 109,
+                height: 20
+            })
+        );
+
+        badges.push(
+            Template.apply($this.$badgeT, {
+                url: "https://goreportcard.com/report/" + pkg.docs.repository,
+                image: "https://goreportcard.com/badge/" + pkg.docs.repository,
+                width: 88,
+                height: 20
+            })
+        );
+
+        if (pkg.docs.hasTravis) {
+            var user = pkg.name.split("/")[1],
+                repo = pkg.name.split("/")[2];
+
+            badges.push(
+                Template.apply($this.$badgeT, {
+                    url: "https://travis-ci.org/" + user + "/" + repo,
+                    image: "https://travis-ci.org/" + user + "/" + repo + ".svg?branch=master",
+                    width: 90,
+                    height: 20
+                })
+            );
+        }
+
+        return badges.join("");
+    },
+
+    /**
+     * Binds click events for all the "collapsable" sections to open/close
+     * content when the header is clicked.
+     */
     _bindCollapsableEvents: function() {
         var $this = PkgDetailsController;
 
@@ -175,6 +231,11 @@ var PkgDetailsController = {
         }
     },
 
+    /**
+     * Toggles visibility of a "collapsable" section.
+     * 
+     * @param collapsable {Element}
+     */
     _toggleCollapsableVisibility: function(collapsable) {
         var $this = PkgDetailsController,
             content = collapsable.getElementsByClassName("content")[0];

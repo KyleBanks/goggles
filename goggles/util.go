@@ -34,3 +34,17 @@ func ignorePkg(path string) bool {
 
 	return false
 }
+
+// repo returns the repository of the package provided.
+//
+// For example, if "github.com/foo/bar/baz" is provided,
+// "github.com/foo/bar" will be returned. If the repository
+// cannot be determined, an empty string is returned.
+func repo(pkg string) string {
+	components := strings.Split(pkg, "/")
+	if len(components) <= 2 {
+		return ""
+	}
+
+	return strings.Join(components[0:3], "/")
+}

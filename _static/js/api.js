@@ -5,36 +5,6 @@ var API = {
     BASE: "/api",
 
     /**
-     * Sends a GET request to the API.
-     *
-     * @param path {String}
-     * @param cb {function(Error, Object)}
-     */
-    _get: function(path, cb) {
-        cb = cb || function() {};
-        var $this = API;
-        path = $this.BASE + path;
-
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState != XMLHttpRequest.DONE) {
-                return;
-            }
-
-            console.log("(" + xmlhttp.status + ") " + xmlhttp.responseText);
-            if (xmlhttp.status == 200) {
-                cb(null, JSON.parse(xmlhttp.responseText));
-            } else if (xmlhttp.status == 400) {
-                cb(new error(xmlhttp.status + ": " + xmlhttp.responseText));
-            }
-        };
-
-        console.log("GET", path);
-        xmlhttp.open("GET", path, true);
-        xmlhttp.send();
-    },
-
-    /**
      * Loads the root package list.
      * 
      * @param cb {function(Error, Object)}
@@ -64,10 +34,58 @@ var API = {
     },
 
     /**
-     * Sends a request to open the browser dev tools.
+     * Opens the system terminal to the package name provided.
+     *
+     * @param name {String}
+     * @param cb {function(Error, Object)}
      */
-    openDevTools: function() {
-        return API._get("/debug");
-    }
+    openTerminal: function(name, cb) {
+        return API._get("/open/terminal?name=" + encodeURIComponent(name), cb);
+    },
+
+    /**
+     * Opens the default browser to the specified URL.
+     *
+     * @param url {String}
+     * @param cb {function(Error, Object)}
+     */
+    openUrl: function(url, cb) {
+        return API._get("/open/url?url=" + encodeURIComponent(url), cb);
+    },
+
+    /**
+     * Sends a GET request to the API.
+     *
+     * @param path {String}
+     * @param cb {function(Error, Object)}
+     */
+    _get: function(path, cb) {
+        cb = cb || function() {};
+        var $this = API;
+        path = $this.BASE + path;
+
+        Loader.show();
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState != XMLHttpRequest.DONE) {
+                return;
+            }
+
+            console.log("(" + xmlhttp.status + ") " + xmlhttp.responseText);
+            if (xmlhttp.status == 200) {
+                cb(null, JSON.parse(xmlhttp.responseText));
+            } else if (xmlhttp.status == 400) {
+                cb(new error(xmlhttp.status + ": " + xmlhttp.responseText));
+            }
+
+            Loader.hide();
+        };
+
+        console.log("GET", path);
+        xmlhttp.open("GET", path, true);
+        xmlhttp.send();
+    },
+
 
 };

@@ -2,39 +2,54 @@
 
 /* General */
 body {
-	color: #EEEFF7;
-	background: #445878;
+    color: #445878;
+    background: #FFF;
 }
 
 a {
-	color: #EEEFF7;
+    color: #EEEFF7;
 }
 
 a:hover {
-	color: #92CDCF;
+    color: #445878;
 }
 
 pre, code {
-	background: #31353D;
-}
-
-/* Controllers */
-#controllers #pkg-list {
-	background: #31353D;
-}
-
-#controllers #pkg-list .header {
-	color: #EEEFF7;
-	background: #1C1D21;
-}
-
-#controllers #pkg-list .search input {
-	background: #1C1D21;
-	border-color: #1C1D21;
-	color: #EEEFF7;
+    background: #31353D;
+    color: #FFF;
 }
 
 /* Pkg List */
+#pkg-list {
+    background: #31353D;
+}
+
+#pkg-list .header {
+    color: #EEEFF7;
+    background: #1C1D21;
+}
+
+#pkg-list .search input {
+    background: #1C1D21;
+    border-color: #1C1D21;
+    color: #EEEFF7;
+}
+
 #pkg-list .pkg.active a, #pkg-list .pkg.active a:focus {
-	color: #92CDCF;
+    color: #92CDCF;
+}
+
+/* Pkg Details */
+#pkg-details .actions .button {
+    border-color: #445878;
+    color: #445878;
+}
+
+#pkg-details .actions .button:hover {
+    background-color: #445878;
+    color: #fff;
+}
+
+#pkg-details .collapsable .content {
+    background: #f7f7f7;
 }

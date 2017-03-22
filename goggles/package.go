@@ -8,6 +8,7 @@ import (
 	"go/printer"
 	"go/token"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/KyleBanks/depth"
@@ -21,6 +22,8 @@ const (
 	FunctionDoc DocType = "FUNCTION"
 	// TypeDoc indicates type-level documentation.
 	TypeDoc DocType = "TYPE"
+
+	travisFile = ".travis.yml"
 )
 
 // DocType defines a type of documentation.
@@ -39,6 +42,7 @@ type Doc struct {
 	Type DocType `json:"type"`
 
 	Name        string `json:"name"`
+	Repository  string `json:"repository"`
 	Header      string `json:"header"`
 	Import      string `json:"import"`
 	Declaration string `json:"declaration"`
@@ -47,6 +51,8 @@ type Doc struct {
 	Constants string `json:"constants"`
 	Variables string `json:"variables"`
 	Content   []Doc  `json:"content"`
+
+	HasTravis bool `json:"hasTravis"`
 }
 
 // NewPackage attempts to resolve a go package from the path provided.
@@ -79,12 +85,14 @@ func (p *Package) makeDocs() error {
 	p.Docs = &Doc{
 		Type: PackageDoc,
 
-		Name:   doc.Name,
-		Import: fmt.Sprintf("import \"%v\"", p.Name),
-		Usage:  doc.Doc,
+		Name:       doc.Name,
+		Repository: repo(p.Name),
+		Import:     fmt.Sprintf("import \"%v\"", p.Name),
+		Usage:      doc.Doc,
 
 		Constants: p.printValues(doc.Consts),
 		Variables: p.printValues(doc.Vars),
+		HasTravis: p.hasTravis(),
 	}
 	p.Docs.Content = append(p.Docs.Content, p.printFuncs(doc.Funcs)...)
 	p.Docs.Content = append(p.Docs.Content, p.printTypes(doc.Types)...)
@@ -175,4 +183,22 @@ func (p *Package) printToken(t interface{}) string {
 	}
 
 	return b.String()
+}
+
+// hasTravis returns true if the current Package or the root directory of the repository
+// has a .travis.yml file present.
+func (p *Package) hasTravis() bool {
+	paths := []string{
+		p.Name,
+		repo(p.Name),
+	}
+
+	for _, p := range paths {
+		_, err := os.Stat(filepath.Join(sys.AbsPath(p), travisFile))
+		if err == nil {
+			return true
+		}
+	}
+
+	return false
 }

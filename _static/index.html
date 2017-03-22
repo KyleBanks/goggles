@@ -1,97 +1,117 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<!-- Styles -->
-		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,300italic,700,700italic">
-		<link rel="stylesheet" type="text/css" href="/static/css/lib/normalize.css">
-		<link rel="stylesheet" type="text/css" href="/static/css/lib/milligram.min.css">
-		<link rel="stylesheet" type="text/css" href="/static/css/lib/prettify.css">
-		<link rel="stylesheet" type="text/css" href="/static/css/main.css">
-		<link rel="stylesheet" type="text/css" href="/static/css/colors.css">
-	</head>
-	<body>
+<head>
+	<!-- Styles -->
+	<link href="https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans:400,400i,700,700i" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/static/css/lib/normalize.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/lib/milligram.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/lib/prettify.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/colors.css">
+</head>
+<body>
 
-		<div id="loader">
-			<img src="/static/img/loader-1.png">
-		</div>
-		
-		<!-- Controllers -->
-		<div id="controllers" class="container">
-			<div class="row">
-				
-				<div id="pkg-list" class="column column-25">
-					<div class="search">
-						<input type="text" placeholder="Search" id="txt-pkg-list-search">
-					</div>
-					<div id="pkg-list-content"></div>
+	<div id="loader">
+		<img src="/static/img/loader-1.png">
+	</div>
+	
+	<!-- Controllers -->
+	<div id="controllers" class="container">
+		<div class="row">
+			
+			<div id="pkg-list" class="column column-25">
+				<div class="search">
+					<input type="text" placeholder="Search" id="txt-pkg-list-search">
 				</div>
-
-				<div id="pkg-details" class="column column-75"></div>
+				<div id="pkg-list-content"></div>
 			</div>
+
+			<div id="pkg-details" class="column column-75"></div>
+		</div>
+	</div>
+
+	<!-- Templates -->
+	<div class="hide">
+		<!-- Pkg List -->
+		<div id="t-pkg-list" class="pkg">
+        	<span>
+        		<a href="#" class="pkg-link" 
+        		   onclick="PkgListController.onPkgSelected({{index}})">
+        			{{displayName}}
+        		</a>
+        	</span>
 		</div>
 
-		<!-- Templates -->
-		<div class="hide">
-			<!-- Pkg List -->
-			<div id="t-pkg-list" class="pkg">
-	        	<span>
-	        		<a href="#" class="pkg-link" 
-	        		   onclick="PkgListController.onPkgSelected({{index}})">
-	        			{{displayName}}
-	        		</a>
-	        	</span>
+		<div id="t-pkg-list-header" class="header">
+        	<span>{{name}}</span>
+		</div>
+
+		<!-- Pkg Details -->
+		<div id="t-pkg-details">
+			<div class="actions float-right">
+				<button class="button button-outline" 
+					onclick="PkgDetailsController.openFileExplorer('{{fullName}}')">
+					Finder
+				</button>
+
+				<button class="button button-outline" 
+					onclick="PkgDetailsController.openTerminal('{{fullName}}')">
+					Terminal
+				</button>
+
+				<button class="button button-outline" 
+					onclick="PkgDetailsController.openUrl('{{repository}}')">
+					Repo
+				</button>
 			</div>
-			<div id="t-pkg-list-header" class="header">
-	        	<span>{{name}}</span>
+	
+			<h1>{{name}}</h1>
+			
+			<div class="badges pad">
+				{{badges}}
 			</div>
 
-			<!-- Pkg Details -->
-			<div id="t-pkg-details">
-				<h1>{{name}}</h1>
-				<code>{{import}}</code>
+			<code class="import">{{import}}</code>
 
-				<div class="actions">
-					<button class="button button-outline" 
-						onclick="PkgDetailsController.openFileExplorer('{{fullName}}')">
-						Open Finder
-					</button>
-				</div>
+			{{content}}
+		</div>
 
+		<div id="t-pkg-details-heading" class="{{class}}">
+			<h2 class="trigger {{titleClass}}">
+				<span class="collapsable-icon">&#10148;</span> {{title}}
+			</h2>
+			<div class="content pad">
 				{{content}}
 			</div>
-			<div id="t-pkg-details-heading" class="{{class}}">
-				<h2 class="trigger {{titleClass}}">
-					<span class="collapsable-icon">&#10148;</span> {{title}}
-				</h2>
-				<div class="content pad">
-					{{content}}
-				</div>
-			</div>
-			<div id="t-pkg-details-subheading">
-				<h3 class="{{titleClass}}">
-					{{title}}
-				</h3>
-				<div class="pad">
-					{{content}}
-				</div>
-			</div>
-			<div id="t-pkg-details-function">
-				<pre><code>{{declaration}}</code></pre>	
-				{{usage}}
+		</div>
+
+		<div id="t-pkg-details-subheading">
+			<h3 class="{{titleClass}}">
+				{{title}}
+			</h3>
+			<div class="pad">
+				{{content}}
 			</div>
 		</div>
 
-		<!-- JS -->
-		<script src="/static/js/lib/showdown.1.6.3.js" type="text/javascript"></script>
-		<script src="/static/js/lib/prettify.js" type="text/javascript"></script>
-		<script src="/static/js/debug.js" type="text/javascript"></script>
-		<script src="/static/js/loader.js" type="text/javascript"></script>
-		<script src="/static/js/template.js" type="text/javascript"></script>
-		<script src="/static/js/api.js" type="text/javascript"></script>
-		<script src="/static/js/pkg-list.js" type="text/javascript"></script>
-		<script src="/static/js/pkg-details.js" type="text/javascript"></script>
+		<div id="t-pkg-details-function">
+			<pre><code>{{declaration}}</code></pre>	
+			{{usage}}
+		</div>
 
-		<!-- Must be last! -->
-		<script src="/static/js/state.js" type="text/javascript"></script>
-	</body>
+		<a id="t-pkg-details-badge" href="#" onclick="PkgDetailsController.openUrl('{{url}}')">
+			<img src="{{image}}" width="{{width}}" height="{{height}}" />
+		</a>
+	</div>
+
+	<!-- JS -->
+	<script src="/static/js/lib/showdown.1.6.3.js" type="text/javascript"></script>
+	<script src="/static/js/lib/prettify.js" type="text/javascript"></script>
+	<script src="/static/js/loader.js" type="text/javascript"></script>
+	<script src="/static/js/template.js" type="text/javascript"></script>
+	<script src="/static/js/api.js" type="text/javascript"></script>
+	<script src="/static/js/pkg-list.js" type="text/javascript"></script>
+	<script src="/static/js/pkg-details.js" type="text/javascript"></script>
+	<script src="/static/js/state.js" type="text/javascript"></script><!-- Must be last! -->
+</body>
 </html>

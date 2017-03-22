@@ -22,8 +22,6 @@ var PkgListController = {
      */
     load: function() {
         var $this = PkgListController;
-
-        Loader.show()
         API.loadPkgList($this._onLoad);
     },
 
@@ -42,7 +40,6 @@ var PkgListController = {
         $this._pkgList = res;
 
         $this._render();
-        Loader.hide();
     },
 
     /**

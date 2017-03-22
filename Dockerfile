@@ -8,4 +8,4 @@ RUN mkdir -p $GOPATH/src/github.com/KyleBanks/goggles
 WORKDIR $GOPATH/src/github.com/KyleBanks/goggles
 ADD . .
 
-CMD go test -cover $(go list ./... | grep -v vendor | grep -v cmd/goggles)
+CMD go test -cover $(go list ./... | grep -v vendor)

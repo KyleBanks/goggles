@@ -9,53 +9,44 @@ import (
 	"runtime"
 
 	"github.com/KyleBanks/goggles/goggles"
+	"github.com/KyleBanks/goggles/pkg/sys"
 	"github.com/KyleBanks/goggles/server"
-	"github.com/alexflint/gallium"
+)
+
+const (
+	port = 10765
+
+	title       = "Goggles"
+	titleAbout  = "About"
+	titleThanks = "Thanks"
+	titleDebug  = "Debug"
+	titleQuit   = "Quit"
 )
 
 var (
-	port    = 10765
 	logFile = os.ExpandEnv("$HOME/Library/Logs/goggles.log")
 	index   = fmt.Sprintf("http://127.0.0.1:%v/static/index.html", port)
-
-	window = gallium.WindowOptions{
-		Shape: gallium.Rect{
-			Width:  1200,
-			Height: 800,
-			Bottom: 400,
-			Left:   400,
-		},
-		TitleBar:         true,
-		Frame:            true,
-		Resizable:        false,
-		CloseButton:      true,
-		MinButton:        true,
-		FullScreenButton: false,
-		Title:            "",
-	}
 )
 
 func init() {
 	runtime.LockOSThread()
 }
 
-func main() {
-	gallium.RedirectStdoutStderr(logFile)
-
-	log.Fatal(gallium.Loop(os.Args, onReady))
+func startServer() {
+	p := provider{goggles.Service{}}
+	api := server.New(p, filepath.Dir(os.Args[0]))
+	addr := fmt.Sprintf(":%v", port)
+	log.Fatal(http.ListenAndServe(addr, api))
 }
 
-func onReady(app *gallium.App) {
-	w, err := app.OpenWindow(index, window)
-	if err != nil {
-		log.Fatal(err)
-	}
+func openAbout() {
+	sys.OpenBrowser("https://github.com/KyleBanks/goggles")
+}
 
-	addr := fmt.Sprintf(":%v", port)
-	api := server.New(provider{
-		w,
-		goggles.Default,
-	}, filepath.Dir(os.Args[0]))
+func openThanks() {
+	sys.OpenBrowser("https://github.com/KyleBanks/goggles#credits")
+}
 
-	log.Fatal(http.ListenAndServe(addr, api))
+func quit() {
+	os.Exit(0)
 }
