@@ -19,7 +19,7 @@ Grab the latest release from the [Releases](https://github.com/KyleBanks/goggles
 
 In order to build and run Goggles, there are a few steps you'll need to take:
 
-1. `go get github.com/KyleBanks/goggles`
+1. `go get github.com/KyleBanks/goggles/...`
 2. Install [Gallium](https://github.com/alexflint/gallium), in order to bundle the `.app`.
 3. Install [npm](https://www.npmjs.com/) and [Gulp](http://gulpjs.com/), in order to build the front-end assets.
 4. Install [mmake](https://github.com/tj/mmake).
