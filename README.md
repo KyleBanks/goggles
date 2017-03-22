@@ -7,6 +7,8 @@
 
 🔭  Goggles is a GUI for your $GOPATH.
 
+![Goggles Demo](./demo.gif)
+
 ## Install
 
 ### Stable
