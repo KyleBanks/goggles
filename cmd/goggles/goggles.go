@@ -33,6 +33,8 @@ func init() {
 }
 
 func startServer() {
+	log.Printf("$GOPATH=%v, srcdir=%v", sys.Gopath(), sys.Srcdir())
+
 	p := provider{goggles.Service{}}
 	api := server.New(p, filepath.Dir(os.Args[0]))
 	addr := fmt.Sprintf(":%v", port)

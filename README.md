@@ -9,13 +9,21 @@
 
 ![Goggles Demo](./demo.gif)
 
+## Features
+
+- Browse and search local packages
+- View package documentation
+- Open the project folder in Finder or Terminal
+- Open the project repository in your browser
+- Displays badges for GoDoc, Goreportcard, and Travis.CI (if .travis.yml is present)
+
 ## Install
 
 ### Stable
 
 Grab the latest release from the [Releases](https://github.com/KyleBanks/goggles/releases) page. 
 
-**Note:** It is currently a known issue that Goggles can only be run via the command-line with `open Goggles.app`, simply double-clicking `Goggles.app` has issues finding your $GOPATH.
+**Note:**  If you have a custom `$GOPATH` it's currently a known issue that Goggles must be run via the command-line with `open Goggles.app`, simply double-clicking `Goggles.app` will only work with the default of `$HOME/go`.
 
 ### From Source
 

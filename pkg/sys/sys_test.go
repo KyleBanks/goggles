@@ -7,10 +7,10 @@ import (
 )
 
 type mockRunner struct {
-	runFn func(string, ...string) error
+	runFn func(string, ...string) ([]byte, error)
 }
 
-func (m mockRunner) Run(cmd string, args ...string) error { return m.runFn(cmd, args...) }
+func (m mockRunner) Run(cmd string, args ...string) ([]byte, error) { return m.runFn(cmd, args...) }
 
 func Test_OpenFileExplorer(t *testing.T) {
 	expect := []string{"/foo/bar/gopath", "src", "github.com/foo/bar"}
@@ -19,10 +19,10 @@ func Test_OpenFileExplorer(t *testing.T) {
 	var gotCmd string
 	var gotPath string
 	DefaultRunner = mockRunner{
-		runFn: func(cmd string, args ...string) error {
+		runFn: func(cmd string, args ...string) ([]byte, error) {
 			gotCmd = cmd
 			gotPath = args[0]
-			return nil
+			return nil, nil
 		},
 	}
 
@@ -42,10 +42,10 @@ func Test_OpenTerminal(t *testing.T) {
 	var gotCmd string
 	var gotArgs []string
 	DefaultRunner = mockRunner{
-		runFn: func(cmd string, args ...string) error {
+		runFn: func(cmd string, args ...string) ([]byte, error) {
 			gotCmd = cmd
 			gotArgs = args
-			return nil
+			return nil, nil
 		},
 	}
 
@@ -72,10 +72,10 @@ func Test_OpenBrowser(t *testing.T) {
 		var gotCmd string
 		var gotURL string
 		DefaultRunner = mockRunner{
-			runFn: func(cmd string, args ...string) error {
+			runFn: func(cmd string, args ...string) ([]byte, error) {
 				gotCmd = cmd
 				gotURL = args[0]
-				return nil
+				return nil, nil
 			},
 		}
 
@@ -108,9 +108,16 @@ func Test_Srcdir(t *testing.T) {
 }
 
 func Test_Gopath(t *testing.T) {
+	// GOPATH avaiable
 	expect := "/foo/bar/path"
 	os.Setenv("GOPATH", expect)
+	if Gopath() != expect {
+		t.Fatalf("Unexpected Gopath, expected=%v, got=%v", expect, Gopath())
+	}
 
+	// Default
+	expect = defaultGoPath
+	os.Setenv("GOPATH", "")
 	if Gopath() != expect {
 		t.Fatalf("Unexpected Gopath, expected=%v, got=%v", expect, Gopath())
 	}

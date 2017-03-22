@@ -15,6 +15,8 @@ var (
 	cmdOpenFileExplorer = []string{"open"}
 	cmdOpenTerminal     = []string{"open", "-a", "Terminal"}
 	cmdOpenBrowser      = []string{"open"}
+
+	defaultGoPath = os.ExpandEnv("$HOME/go")
 )
 
 // OpenFileExplorer opens the system file explorer application to the
@@ -49,7 +51,13 @@ func Srcdir() string {
 	return filepath.Join(Gopath(), srcDirName)
 }
 
-// Gopath returns the $GOPATH environment variable.
+// Gopath returns the $GOPATH environment variable, defaulting to $HOME/go
+// if the environment variable is not set.
 func Gopath() string {
-	return os.Getenv(gopathEnv)
+	gopath := os.Getenv(gopathEnv)
+	if len(gopath) == 0 {
+		gopath = defaultGoPath
+	}
+
+	return gopath
 }

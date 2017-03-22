@@ -9,13 +9,13 @@ var DefaultRunner Runner = CmdRunner{}
 
 // Runner defines a type that can run system commands.
 type Runner interface {
-	Run(string, ...string) error
+	Run(string, ...string) ([]byte, error)
 }
 
 // CmdRunner runs system commands.
 type CmdRunner struct{}
 
 // Run executes a system command.
-func (CmdRunner) Run(cmd string, args ...string) error {
-	return exec.Command(cmd, args...).Run()
+func (CmdRunner) Run(cmd string, args ...string) ([]byte, error) {
+	return exec.Command(cmd, args...).CombinedOutput()
 }
