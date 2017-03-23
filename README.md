@@ -44,7 +44,7 @@ Contributions to Goggles are very welcome! In order to contribute, either open a
 
 Goggles was developed by [Kyle Banks](https://twitter.com/kylewbanks).
 
-## Credits
+## Thanks
 
 The [Gopher](./_static/img) loading images were created by [Ashley McNamara](https://twitter.com/ashleymcnamara) and inspired by [Renee French](http://reneefrench.blogspot.co.uk/).
 
