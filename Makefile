@@ -32,8 +32,8 @@ assets:
 	npm install ; \
 	gulp 
 
-	@go-bindata-assetfs -ignore=node_modules -pkg server static/... ; \
-	mv bindata_assetfs.go server/
+	@go-bindata-assetfs -ignore=node_modules -pkg assets static/... ; \
+	mv bindata_assetfs.go server/assets/
 .PHONY: assets
 
 # Cleans any built artifacts.
@@ -61,7 +61,7 @@ build.app: | clean assets
 # binaries for the browser application.
 release: | sanity build.app
 	@cd $(BIN) ; \
-	zip -r -y goggles.$(VERSION).zip $(APP_NAME)
+	zip -r -y goggles.osx.app.$(VERSION).zip $(APP_NAME)
 
 	@gox -osarch="$(strip $(RELEASE_PLATFORMS))" \
          -output "bin/{{.Dir}}_$(VERSION)_{{.OS}}_{{.Arch}}" $(INSTALL_PKG)
@@ -82,7 +82,7 @@ sanity:
 	@go list ./... | grep -v vendor/ | xargs go vet 
 
 	@echo "---------------- LINT ----------------"
-	@go list ./... | grep -v vendor/ | xargs golint
+	@go list ./... | grep -v -e vendor/ -e server/assets | xargs golint
 
 	@echo "---------------- FMT ----------------"
 	@go list ./... | grep -v vendor/ | xargs go fmt
