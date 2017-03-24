@@ -1,0 +1,145 @@
+{
+    "memo": "ff29408d83b3471d487d3c25526c2b36218ed81c092a7755be30b0acae398917",
+    "projects": [
+        {
+            "name": "github.com/alexjlockwood/gcm",
+            "branch": "master",
+            "revision": "532ebb3946fe1524432b00b8d04d39867c3d4c53",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/anachronistic/apns",
+            "branch": "master",
+            "revision": "91763352f7bfc26cca140cda1dad70e0ec9a4236",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/aws/aws-sdk-go",
+            "version": "v1.6.19",
+            "revision": "db14171eb3a0a13125d9cc2d9ebc7cbdb4e737b6",
+            "packages": [
+                "aws",
+                "aws/awserr",
+                "aws/session",
+                "service/dynamodb"
+            ]
+        },
+        {
+            "name": "github.com/davecgh/go-spew",
+            "version": "v1.1.0",
+            "revision": "346938d642f2ec3594ed81d874461961cd0faa76",
+            "packages": [
+                "spew"
+            ]
+        },
+        {
+            "name": "github.com/garyburd/redigo",
+            "version": "v1.0.0",
+            "revision": "8873b2f1995f59d4bcdd2b0dc9858e2cb9bf0c13",
+            "packages": [
+                "redis"
+            ]
+        },
+        {
+            "name": "github.com/go-ini/ini",
+            "version": "v1.24.0",
+            "revision": "e3c2d47c61e5333f9aa2974695dd94396eb69c75",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/go-sql-driver/mysql",
+            "version": "v1.3",
+            "revision": "a0583e0143b1624142adab07e0e97fe106d99561",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/jinzhu/gorm",
+            "version": "v1.0",
+            "revision": "5174cc5c242a728b435ea2be8a2f7f998e15429b",
+            "packages": [
+                ".",
+                "dialects/sqlite"
+            ]
+        },
+        {
+            "name": "github.com/jinzhu/inflection",
+            "branch": "master",
+            "revision": "1c35d901db3da928c72a72d8458480cc9ade058f",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/jmespath/go-jmespath",
+            "version": "0.2.2",
+            "revision": "3433f3ea46d9f8019119e7dd41274e112a2359a9",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/mattn/go-sqlite3",
+            "version": "v1.2.0",
+            "revision": "ca5e3819723d8eeaf170ad510e7da1d6d2e94a08",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/pmezard/go-difflib",
+            "version": "v1.0.0",
+            "revision": "792786c7400a136282c1664665ae0a8db921c6c2",
+            "packages": [
+                "difflib"
+            ]
+        },
+        {
+            "name": "github.com/satori/go.uuid",
+            "version": "v1.1.0",
+            "revision": "879c5887cd475cd7864858769793b2ceb0d44feb",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/stretchr/objx",
+            "branch": "master",
+            "revision": "1a9d0bb9f541897e62256577b352fdbc1fb4fd94",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/stretchr/testify",
+            "version": "v1.1.4",
+            "revision": "69483b4bd14f5845b5a1e55bca19e954e827f1d0",
+            "packages": [
+                "mock"
+            ]
+        },
+        {
+            "name": "golang.org/x/crypto",
+            "branch": "master",
+            "revision": "92783773f0d5c65e68a806909423bea53c78df01",
+            "packages": [
+                "bcrypt"
+            ]
+        },
+        {
+            "name": "golang.org/x/net",
+            "branch": "master",
+            "revision": "236b8f043b920452504e263bc21d354427127473",
+            "packages": [
+                "context"
+            ]
+        }
+    ]
+}

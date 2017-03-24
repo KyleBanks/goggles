@@ -1,0 +1,23 @@
+language: go
+go:
+  - 1.8.x
+
+install: true
+
+services:
+  - redis-server
+before_script:
+  - wget http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz -O /tmp/dynamodb_local_latest.tar.gz
+  - tar -xzf /tmp/dynamodb_local_latest.tar.gz -C /tmp
+  - java -Djava.library.path=/tmp/DynamoDBLocal_lib -jar /tmp/DynamoDBLocal.jar -inMemory -port 8999 &
+  - sleep 2
+env:
+  global:
+    - AWS_ACCESS_KEY_ID=FAKEKEY
+    - AWS_SECRET_ACCESS_KEY=FAKESECRET
+    - AWS_REGION=us-east-1
+
+before_install:
+  - go get github.com/mattn/goveralls
+script:
+  - $HOME/gopath/bin/goveralls -service=travis-ci

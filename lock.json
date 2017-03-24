@@ -1,5 +1,5 @@
 {
-    "memo": "676d578a4e6543a8313481e34c22f868578d1826e6a292ad168bf0255adf937b",
+    "memo": "d8c2af5b20a1420c4d399827f9560e94b974b769674ab0f886a7f06d6ccfb080",
     "projects": [
         {
             "name": "github.com/KyleBanks/depth",
@@ -7,6 +7,14 @@
             "revision": "f23af3eb15ee1eed9160ba37323070450168898d",
             "packages": [
                 "."
+            ]
+        },
+        {
+            "name": "github.com/KyleBanks/go-kit",
+            "branch": "master",
+            "revision": "a6154712f5de6360938f2b3eb8c1ba319e51871a",
+            "packages": [
+                "storage"
             ]
         },
         {
