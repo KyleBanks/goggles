@@ -26,7 +26,7 @@ Goggles can be run in a web browser (cross-platform) or as a standalone applicat
 Grab the latest release from the [Releases](https://github.com/KyleBanks/goggles/releases) page. 
 
 ### From Source (browser mode)
-*Requires go 1.8 or higher*
+*Requires go 1.8 or higher.*
 
 ```
 $ go get github.com/KyleBanks/goggles/cmd/goggles
