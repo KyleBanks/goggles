@@ -27,10 +27,10 @@ func Test_ignorePkg(t *testing.T) {
 		in  string
 		out bool
 	}{
-		{"/foo/bar/vendor/baz", true},
-		{"/foo/bar/.git/baz", true},
-		{"/foo/bar/testdata/baz", true},
-		{"/foo/bar/baz", false},
+		{"github.com/foo/bar/vendor/baz", true},
+		{"github.com/foo/bar/.git/baz", true},
+		{"github.com/foo/bar/testdata/baz", true},
+		{"github.com/foo/bar/baz", false},
 	}
 
 	for idx, tt := range tests {

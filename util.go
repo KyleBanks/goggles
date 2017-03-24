@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ignorePaths = []string{".git", "/vendor/", "/testdata/"}
+	ignorePaths = []string{".git", ".build", "/Godep/", "/vendor/", "/testdata/"}
 )
 
 // cleanPath sanitizes a package path by removing the $GOPATH/src portion
