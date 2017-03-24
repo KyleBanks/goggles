@@ -27,7 +27,7 @@ func Test_OpenTerminal(t *testing.T) {
 
 	OpenTerminal(expect[2])
 	if !strings.Contains(strings.Join(gotArgs, ","), expect[2]) {
-		t.Fatalf("Unexpected args, expected=%v, got=%v", expect, gotArgs)
+		t.Fatalf("Unexpected args, expected=%v, got=%v", expect[2], gotArgs)
 	}
 }
 
@@ -49,6 +49,11 @@ func Test_Srcdir(t *testing.T) {
 		{"", []string{defaultGoPath + "/src"}},
 	}
 
+	gopath := os.Getenv("GOPATH")
+	defer func() {
+		os.Setenv("GOPATH", gopath)
+	}()
+
 	for idx, tt := range tests {
 		os.Setenv("GOPATH", tt.env)
 
@@ -68,6 +73,11 @@ func Test_Gopath(t *testing.T) {
 		{"", []string{defaultGoPath}},
 	}
 
+	gopath := os.Getenv("GOPATH")
+	defer func() {
+		os.Setenv("GOPATH", gopath)
+	}()
+
 	for idx, tt := range tests {
 		os.Setenv("GOPATH", tt.env)
 
@@ -86,6 +96,11 @@ func Test_RawGopath(t *testing.T) {
 		{"/foo/bar/path:/other/path", "/foo/bar/path:/other/path"},
 		{"", defaultGoPath},
 	}
+
+	gopath := os.Getenv("GOPATH")
+	defer func() {
+		os.Setenv("GOPATH", gopath)
+	}()
 
 	for idx, tt := range tests {
 		os.Setenv("GOPATH", tt.env)

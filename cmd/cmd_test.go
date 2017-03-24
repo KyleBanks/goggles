@@ -18,6 +18,11 @@ func Test_initConfig(t *testing.T) {
 		{"/foo/bar:/foo/bar/baz", []string{"/foo/bar", "/foo/bar/baz"}},
 	}
 
+	gopath := sys.RawGopath()
+	defer func() {
+		sys.SetGopath(gopath)
+	}()
+
 	for idx, tt := range tests {
 		defaultProvider = &mockProvider{
 			preferencesFn: func() *conf.Config {
