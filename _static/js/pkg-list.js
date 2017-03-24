@@ -50,6 +50,10 @@ var PkgListController = {
             search = $this.$search.value.toLowerCase(),
             contents = [];
 
+        if ($this._pkgList == null || $this._pkgList.length === 0) {
+            return $this._renderEmpty();
+        }
+
         var header = null,
             renderCount = 0;
         $this._renderedPkgList = [];
@@ -91,6 +95,11 @@ var PkgListController = {
         if (renderCount > 0) {
             $this.$list.getElementsByTagName("a")[0].click();
         }
+    },
+
+    _renderEmpty: function() {
+        State.set(State.Preferences);
+        Toast.show("No packages found, does your $GOPATH look right?");
     },
 
     /**

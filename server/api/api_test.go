@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/KyleBanks/goggles/conf"
 	"github.com/KyleBanks/goggles/goggles"
 )
 
@@ -18,6 +19,9 @@ type mockProvider struct {
 	OpenFileExplorerFn func(string)
 	OpenTerminalFn     func(string)
 	OpenBrowserFn      func(string)
+
+	preferencesFn       func() *conf.Config
+	updatePreferencesFn func(*conf.Config)
 }
 
 func (m *mockProvider) List() ([]*goggles.Package, error)          { return m.ListFn() }
@@ -25,6 +29,8 @@ func (m *mockProvider) Details(n string) (*goggles.Package, error) { return m.De
 func (m *mockProvider) OpenFileExplorer(n string)                  { m.OpenFileExplorerFn(n) }
 func (m *mockProvider) OpenTerminal(n string)                      { m.OpenTerminalFn(n) }
 func (m *mockProvider) OpenBrowser(n string)                       { m.OpenBrowserFn(n) }
+func (m *mockProvider) Preferences() *conf.Config                  { return m.preferencesFn() }
+func (m *mockProvider) UpdatePreferences(c *conf.Config)           { m.updatePreferencesFn(c) }
 
 func setup() *mockProvider {
 	m := &mockProvider{}
@@ -62,6 +68,8 @@ func Test_Bind(t *testing.T) {
 		{"/api/open/file-explorer"},
 		{"/api/open/terminal"},
 		{"/api/open/url"},
+		{"/api/preferences/"},
+		{"/api/preferences/update"},
 	}
 
 	for idx, tt := range tests {

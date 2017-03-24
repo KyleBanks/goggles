@@ -54,6 +54,25 @@ var API = {
     },
 
     /**
+     * Returns the Goggles preferences.
+     * 
+     * @param cb {function(Error, Object)}
+     */
+    getPreferences: function(cb) {
+        return API._get("/preferences/", cb);
+    },
+
+    /**
+     * Updates Goggles preferences.
+     * 
+     * @param prefs {Object}
+     * @param cb {function(Error, Object)}
+     */
+    setPreferences: function(prefs, cb) {
+        return API._get("/preferences/update?gopath=" + encodeURIComponent(prefs.gopath), cb);
+    },
+
+    /**
      * Sends a GET request to the API.
      *
      * @param path {String}
@@ -82,7 +101,7 @@ var API = {
             Loader.hide();
         };
 
-        console.log("GET", path);
+        console.log("GET: " + path);
         xmlhttp.open("GET", path, true);
         xmlhttp.send();
     },

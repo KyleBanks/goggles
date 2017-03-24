@@ -14,19 +14,39 @@
 	<div id="loader">
 		<img src="/static/img/loader-1.png">
 	</div>
+
+	<div id="toasts"></div>
 	
 	<!-- Controllers -->
 	<div id="controllers" class="container">
 		<div class="row">
-			
 			<div id="pkg-list" class="column column-25">
 				<div class="search">
 					<input type="text" placeholder="Search" id="txt-pkg-list-search">
 				</div>
+
 				<div id="pkg-list-content"></div>
 			</div>
 
 			<div id="pkg-details" class="column column-75"></div>
+		</div>
+
+		<div class="row">
+			<div id="preferences" class="column hide">
+				<div class="inner">
+					<h2>Preferences</h2>
+
+					<div class="input-row">
+						<label for="gopath">$GOPATH</label>
+						<input type="text" placeholder="$GOPATH" id="txt-prefs-gopath">
+					</div>
+
+					<button class="button button-outline" 
+						onclick="PreferencesController.save()">
+						Save
+					</button>
+				</div>				
+			</div>
 		</div>
 	</div>
 
@@ -102,16 +122,23 @@
 		<a id="t-pkg-details-badge" href="#" onclick="PkgDetailsController.openUrl('{{url}}')">
 			<img src="{{image}}" width="{{width}}" height="{{height}}" />
 		</a>
+
+		<!-- Toast -->
+		<div id="t-toast" class="toast">
+			<span id="{{id}}" class="inner">{{message}}</span>
+		</div>
 	</div>
 
 	<!-- JS -->
 	<script src="/static/js/lib/showdown.1.6.3.js" type="text/javascript"></script>
 	<script src="/static/js/lib/prettify.js" type="text/javascript"></script>
 	<script src="/static/js/loader.js" type="text/javascript"></script>
+	<script src="/static/js/toast.js" type="text/javascript"></script>
 	<script src="/static/js/template.js" type="text/javascript"></script>
 	<script src="/static/js/api.js" type="text/javascript"></script>
 	<script src="/static/js/pkg-list.js" type="text/javascript"></script>
 	<script src="/static/js/pkg-details.js" type="text/javascript"></script>
+	<script src="/static/js/preferences.js" type="text/javascript"></script>
 	<script src="/static/js/state.js" type="text/javascript"></script><!-- Must be last! -->
 </body>
 </html>

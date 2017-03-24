@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"github.com/KyleBanks/goggles/conf"
 	"github.com/KyleBanks/goggles/goggles"
 	"github.com/KyleBanks/goggles/pkg/sys"
 	"github.com/KyleBanks/goggles/server"
@@ -21,6 +22,9 @@ const (
 	titleThanks = "Thanks"
 	titleDebug  = "Debug"
 	titleQuit   = "Quit"
+
+	aboutURL  = "https://github.com/KyleBanks/goggles"
+	thanksURL = "https://github.com/KyleBanks/goggles#thanks"
 )
 
 var (
@@ -30,6 +34,12 @@ var (
 
 func init() {
 	runtime.LockOSThread()
+
+	// Update the $GOPATH if a custom value is set.
+	c := conf.Get()
+	if c != nil && len(c.Gopath) > 0 {
+		sys.SetGopath(c.Gopath)
+	}
 }
 
 func startServer() {
@@ -42,11 +52,11 @@ func startServer() {
 }
 
 func openAbout() {
-	sys.OpenBrowser("https://github.com/KyleBanks/goggles")
+	sys.OpenBrowser(aboutURL)
 }
 
 func openThanks() {
-	sys.OpenBrowser("https://github.com/KyleBanks/goggles#credits")
+	sys.OpenBrowser(thanksURL)
 }
 
 func quit() {

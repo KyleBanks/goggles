@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/KyleBanks/goggles/conf"
 	"github.com/KyleBanks/goggles/goggles"
 )
 
@@ -19,6 +20,9 @@ type Provider interface {
 	OpenFileExplorer(string)
 	OpenTerminal(string)
 	OpenBrowser(string)
+
+	Preferences() *conf.Config
+	UpdatePreferences(*conf.Config)
 }
 
 // Bind attaches the API routes to the default HTTP server.
@@ -33,6 +37,10 @@ func Bind(p Provider, mux *http.ServeMux) {
 	mux.HandleFunc("/api/open/file-explorer", openFileExplorer)
 	mux.HandleFunc("/api/open/terminal", openTerminal)
 	mux.HandleFunc("/api/open/url", openURL)
+
+	// Preferences
+	mux.HandleFunc("/api/preferences/", getPreferences)
+	mux.HandleFunc("/api/preferences/update", updatePreferences)
 }
 
 // outputEmpty prints an empty JSON response to a Writer.

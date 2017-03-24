@@ -33,9 +33,9 @@ clean:
 
 # Builds goggles to the ./bin directory.
 build: | clean gulp
-	@mkdir -p bin/
-	@go build -v -o bin/goggles $(INSTALL_PKG)
-	@gallium-bundle bin/goggles \
+	@mkdir -p $(BIN)
+	@go build -v -o $(BIN)/goggles $(INSTALL_PKG)
+	@gallium-bundle $(BIN)/goggles \
 		--output $(APP_FOLDER) \
 		--identifier $(BUNDLE_ID) \
 		--name $(BUNDLE_NAME)

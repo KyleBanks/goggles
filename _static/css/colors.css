@@ -19,6 +19,21 @@ pre, code {
     color: #FFF;
 }
 
+.button, .button.button-outline {
+    border-color: #445878;
+    color: #445878;
+}
+
+.button:hover, .button.button-outline:hover {
+    background-color: #445878;
+    color: #fff;
+}
+
+.toast {
+    background: rgba(68, 88, 120, 0.8);
+    color: #fff;
+}
+
 /* Pkg List */
 #pkg-list {
     background: #31353D;
@@ -29,27 +44,26 @@ pre, code {
     background: #1C1D21;
 }
 
+#pkg-list .pkg.active a, #pkg-list .pkg.active a:focus {
+    color: #92CDCF;
+}
+
 #pkg-list .search input {
     background: #1C1D21;
     border-color: #1C1D21;
     color: #EEEFF7;
 }
 
-#pkg-list .pkg.active a, #pkg-list .pkg.active a:focus {
-    color: #92CDCF;
-}
-
 /* Pkg Details */
-#pkg-details .actions .button {
-    border-color: #445878;
-    color: #445878;
-}
-
-#pkg-details .actions .button:hover {
-    background-color: #445878;
-    color: #fff;
-}
-
 #pkg-details .collapsable .content {
     background: #f7f7f7;
+}
+
+/* Preferences */
+#preferences {
+    background: #fff;
+}
+
+#preferences input {
+    border-color: #445878;
 }

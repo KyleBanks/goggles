@@ -122,3 +122,12 @@ func Test_Gopath(t *testing.T) {
 		t.Fatalf("Unexpected Gopath, expected=%v, got=%v", expect, Gopath())
 	}
 }
+
+func Test_SetGopath(t *testing.T) {
+	expect := "/foo/bar/custom/path"
+	SetGopath(expect)
+
+	if os.Getenv("GOPATH") != expect {
+		t.Fatalf("Unexpected Gopath, expected=%v, got=%v", expect, os.Getenv("GOPATH"))
+	}
+}

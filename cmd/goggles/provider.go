@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+
+	"github.com/KyleBanks/goggles/conf"
 	"github.com/KyleBanks/goggles/goggles"
 	"github.com/KyleBanks/goggles/pkg/sys"
 )
@@ -19,4 +22,23 @@ func (provider) OpenTerminal(n string) {
 
 func (provider) OpenBrowser(n string) {
 	sys.OpenBrowser(n)
+}
+
+func (provider) Preferences() *conf.Config {
+	c := conf.Get()
+
+	// Set defaults
+	if len(c.Gopath) == 0 {
+		c.Gopath = sys.Gopath()
+	}
+
+	return c
+}
+
+func (provider) UpdatePreferences(c *conf.Config) {
+	if err := conf.Save(c); err != nil {
+		log.Printf("Failed to save Config [%v] due to: %v", c, err)
+	}
+
+	sys.SetGopath(c.Gopath)
 }

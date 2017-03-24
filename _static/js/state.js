@@ -2,17 +2,13 @@
 
 var State = {
 
-    $controllers: document.getElementById("controllers"),
-
     PkgList: "pkg-list",
     PkgDetails: "pkg-details",
-
+    Preferences: "preferences",
 
     set: function(state, data) {
         var $this = State;
         console.log("State.set(" + state + ", " + JSON.stringify(data) + ")");
-
-        $this.$controllers.classList.remove("hide");
 
         var controller;
         switch (state) {
@@ -22,7 +18,11 @@ var State = {
             case State.PkgDetails:
                 controller = PkgDetailsController;
                 break;
+            case State.Preferences:
+                controller = PreferencesController;
+                break;
         }
+
         controller.activate(data);
     },
 

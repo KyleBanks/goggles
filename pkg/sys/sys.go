@@ -61,3 +61,8 @@ func Gopath() string {
 
 	return gopath
 }
+
+// SetGopath sets the $GOPATH environment variable to the value provided.
+func SetGopath(gopath string) {
+	os.Setenv(gopathEnv, gopath)
+}
