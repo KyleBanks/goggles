@@ -21,13 +21,22 @@
 
 Goggles can be run in a web browser (cross-platform) or as a standalone application (Mac only).
 
-### Stable
+### Stable (browser & standalone)
 
 Grab the latest release from the [Releases](https://github.com/KyleBanks/goggles/releases) page. 
 
-### From Source
+### From Source (browser mode)
 
-Regardless, there are a few steps you'll need to take in order to build and run Goggles from source:
+```
+$ go get github.com/KyleBanks/goggles/cmd/goggles
+$ goggles
+```
+
+## Contributing
+
+Contributions to Goggles are very welcome! In order to contribute, either open a new issue for discussion prior to making changes, or comment on an existing ticket indicating that you'd like to take it.
+
+In order to work on Goggles there are a few steps you'll need to take in order to build and run from source:
 
 1. `go get github.com/KyleBanks/goggles/...`
 2. Install [npm](https://www.npmjs.com/) and [Gulp](http://gulpjs.com/), in order to build the front-end assets.
@@ -43,10 +52,6 @@ Regardless, there are a few steps you'll need to take in order to build and run 
 2. Run `make app` to build and launch the application.
 
 **Note:** If you'd like to see Goggles available as a standalone application on additional platforms, I encourage you to help contribute to the [Gallium](https://github.com/alexflint/gallium) project.
-
-## Contributing
-
-Contributions to Goggles are very welcome! In order to contribute, either open a new issue for discussion prior to making changes, or comment on an existing ticket indicating that you'd like to take it.
 
 ## Author
 
