@@ -36,7 +36,7 @@ func Test_OpenTerminal(t *testing.T) {
 }
 
 func Test_AbsPath(t *testing.T) {
-	expect := []string{os.ExpandEnv("$GOPATH"), "src", "github.com/foo/bar"}
+	expect := []string{os.ExpandEnv("$GOPATH"), "src", "github.com/KyleBanks/goggles"}
 
 	if AbsPath(expect[2]) != filepath.Join(expect...) {
 		t.Fatalf("Unexpected AbsPath, expected=%v, got=%v", filepath.Join(expect...), AbsPath(expect[2]))

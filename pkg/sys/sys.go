@@ -46,7 +46,7 @@ func OpenBrowser(url string) {
 func AbsPath(pkg string) string {
 	srcDirs := Srcdir()
 	for _, d := range srcDirs {
-		info, err := os.Stat(d)
+		info, err := os.Stat(filepath.Join(d, pkg))
 		if err != nil || !info.IsDir() {
 			continue
 
