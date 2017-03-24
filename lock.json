@@ -1,5 +1,5 @@
 {
-    "memo": "d8c2af5b20a1420c4d399827f9560e94b974b769674ab0f886a7f06d6ccfb080",
+    "memo": "dccb7c344bc502066d9b73b1e272f9fd39e8d95d35fa49fb707693117565a08a",
     "projects": [
         {
             "name": "github.com/KyleBanks/depth",
@@ -23,6 +23,22 @@
             "revision": "8bad16a07bf10a5b825dd2fb5bfc56b5edbb09d8",
             "packages": [
                 "."
+            ]
+        },
+        {
+            "name": "github.com/elazarl/go-bindata-assetfs",
+            "branch": "master",
+            "revision": "30f82fa23fd844bd5bb1e5f216db87fd77b5eb43",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/skratchdot/open-golang",
+            "branch": "master",
+            "revision": "75fb7ed4208cf72d323d7d02fd1a5964a7a9073c",
+            "packages": [
+                "open"
             ]
         }
     ]

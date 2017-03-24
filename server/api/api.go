@@ -5,8 +5,8 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/KyleBanks/goggles"
 	"github.com/KyleBanks/goggles/conf"
-	"github.com/KyleBanks/goggles/goggles"
 )
 
 var provider Provider

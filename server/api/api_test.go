@@ -8,8 +8,8 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/KyleBanks/goggles"
 	"github.com/KyleBanks/goggles/conf"
-	"github.com/KyleBanks/goggles/goggles"
 )
 
 type mockProvider struct {

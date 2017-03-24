@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/KyleBanks/goggles/cmd"
 	"github.com/alexflint/gallium"
 )
 
@@ -34,11 +35,11 @@ var (
 			Entries: []gallium.MenuEntry{
 				gallium.MenuItem{
 					Title:   titleAbout,
-					OnClick: openAbout,
+					OnClick: cmd.OpenAbout,
 				},
 				gallium.MenuItem{
 					Title:   titleThanks,
-					OnClick: openThanks,
+					OnClick: cmd.OpenThanks,
 				},
 
 				gallium.Separator,
@@ -53,11 +54,13 @@ var (
 				gallium.MenuItem{
 					Title:    titleQuit,
 					Shortcut: gallium.MustParseKeys("CMD+q"),
-					OnClick:  quit,
+					OnClick:  cmd.Quit,
 				},
 			},
 		},
 	}
+
+	logFile = os.ExpandEnv("$HOME/Library/Logs/goggles.log")
 )
 
 func main() {
@@ -67,7 +70,7 @@ func main() {
 
 func onReady(app *gallium.App) {
 	var err error
-	window, err = app.OpenWindow(index, opts)
+	window, err = app.OpenWindow(cmd.Index, opts)
 	if err != nil {
 		log.Fatal(err)
 	}

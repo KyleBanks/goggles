@@ -4,7 +4,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/KyleBanks/goggles/goggles"
+	"github.com/KyleBanks/goggles"
 )
 
 func Test_pkgList(t *testing.T) {

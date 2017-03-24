@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/skratchdot/open-golang/open"
 )
 
 const (
@@ -12,9 +14,7 @@ const (
 )
 
 var (
-	cmdOpenFileExplorer = []string{"open"}
-	cmdOpenTerminal     = []string{"open", "-a", "Terminal"}
-	cmdOpenBrowser      = []string{"open"}
+	cmdOpenTerminal = []string{"open", "-a", "Terminal"}
 
 	defaultGoPath = os.ExpandEnv("$HOME/go")
 )
@@ -22,7 +22,7 @@ var (
 // OpenFileExplorer opens the system file explorer application to the
 // specified package.
 func OpenFileExplorer(pkg string) {
-	DefaultRunner.Run(cmdOpenFileExplorer[0], AbsPath(pkg))
+	open.Run(AbsPath(pkg))
 }
 
 // OpenTerminal opens the system terminal (command line) application to the
@@ -38,7 +38,7 @@ func OpenBrowser(url string) {
 		url = "http://" + url
 	}
 
-	DefaultRunner.Run(cmdOpenBrowser[0], url)
+	open.Run(url)
 }
 
 // AbsPath returns the absolute path to a package from it's name.

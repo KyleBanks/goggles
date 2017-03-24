@@ -7,7 +7,7 @@ import (
 )
 
 func Test_New(t *testing.T) {
-	m := New(nil, "/foo/bar")
+	m := New(nil)
 
 	// Try some sample routes known to exist, ensuring they are registered
 	tests := []struct {

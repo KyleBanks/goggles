@@ -1,13 +1,15 @@
-package main
+package cmd
 
 import (
 	"log"
 
+	"github.com/KyleBanks/goggles"
 	"github.com/KyleBanks/goggles/conf"
-	"github.com/KyleBanks/goggles/goggles"
 	"github.com/KyleBanks/goggles/pkg/sys"
 )
 
+// provider wraps the Goggles packages into a single type
+// that can provide all functionality to the API.
 type provider struct {
 	goggles.Service
 }

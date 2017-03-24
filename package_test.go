@@ -5,7 +5,7 @@ import (
 )
 
 func Test_NewPackage(t *testing.T) {
-	path := "github.com/KyleBanks/goggles/goggles"
+	path := "github.com/KyleBanks/goggles"
 	p, err := NewPackage(path)
 	if err != nil {
 		t.Fatal(err)

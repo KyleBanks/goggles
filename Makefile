@@ -1,60 +1,71 @@
-VERSION = 0.2.0
-
-INSTALL_PKG = ./cmd/goggles
+VERSION = 0.3.0
 
 BIN = ./bin
+
+INSTALL_PKG = ./cmd/goggles
+RELEASE_PLATFORMS = darwin/386 darwin/amd64 linux/386 linux/amd64 linux/arm windows/386 windows/amd64
+
+APP_INSTALL_PKG = ./cmd/goggles-app
 APP_NAME = Goggles.app
 APP_FOLDER = $(BIN)/$(APP_NAME)
-APP_STATIC_FOLDER = $(APP_FOLDER)/Contents/MacOS/static
-LOG_FILE = ~/Library/Logs/goggles.log
+APP_LOG_FILE = ~/Library/Logs/goggles.log
+APP_BUNDLE_ID = com.kylewbanks.goggles
+APP_BUNDLE_NAME = Goggles
 
-BUNDLE_ID = com.kylewbanks.goggles
-BUNDLE_NAME = Goggles
-
-# Runs goggles and opens the logs.
+# Runs Goggles within a web browser.
 #
 # This is the default command.
-run: | run.goggles
-	@tail -100f $(LOG_FILE)
-.PHONY: run.logs
+browser: | install
+	@goggles
+.PHONY: browser
 
-# Runs gulp on the static assets.
-gulp:
-	@cd _static ; \
+# Runs Goggles as a standalone app and opens the logs.
+app: | build.app
+	@pkill Goggles || true
+	@open $(APP_FOLDER)
+	@tail -100f $(APP_LOG_FILE)
+.PHONY: app
+
+# Cleans, lints, and generates static assets.
+assets:
+	@cd static ; \
 	npm install ; \
 	gulp 
-.PHONY: gulp
+
+	@go-bindata-assetfs -ignore=node_modules -pkg server static/... ; \
+	mv bindata_assetfs.go server/
+.PHONY: assets
 
 # Cleans any built artifacts.
 clean:
 	@rm -rf $(BIN)
-	@rm -f $(LOG_FILE)
+	@rm -f $(APP_LOG_FILE)
 .PHONY: clean
 
-# Builds goggles to the ./bin directory.
-build: | clean gulp
-	@mkdir -p $(BIN)
-	@go build -v -o $(BIN)/goggles $(INSTALL_PKG)
-	@gallium-bundle $(BIN)/goggles \
-		--output $(APP_FOLDER) \
-		--identifier $(BUNDLE_ID) \
-		--name $(BUNDLE_NAME)
-	@mkdir -p $(APP_STATIC_FOLDER)
-	@cp -a ./_static/. $(APP_STATIC_FOLDER)
-	@rm -rf $(APP_STATIC_FOLDER)/node_modules
-.PHONY: build
+# Builds and installs Goggles as a browser application.
+install: | clean assets	
+	@go install -v $(INSTALL_PKG)
+.PHONY: install
 
-# Builds a release bundle.
-release: | build 
+# Builds Goggles as a standalone app to the ./bin directory.
+build.app: | clean assets
+	@mkdir -p $(BIN)
+	@go build -v -o $(BIN)/goggles-app $(APP_INSTALL_PKG)
+	@gallium-bundle $(BIN)/goggles-app \
+		--output $(APP_FOLDER) \
+		--identifier $(APP_BUNDLE_ID) \
+		--name $(APP_BUNDLE_NAME)
+.PHONY: build.app
+
+# Builds a release bundle for the standalone application, and
+# binaries for the browser application.
+release: | sanity build.app
 	@cd $(BIN) ; \
 	zip -r -y goggles.$(VERSION).zip $(APP_NAME)
-.PHONY: release
 
-# Runs the goggles application.
-run.goggles: | build
-	@pkill Goggles || true
-	@open $(APP_FOLDER)
-.PHONY: run
+	@gox -osarch="$(strip $(RELEASE_PLATFORMS))" \
+         -output "bin/{{.Dir}}_$(VERSION)_{{.OS}}_{{.Arch}}" $(INSTALL_PKG)
+.PHONY: release
 
 # Runs test cases in Docker.
 test.docker:

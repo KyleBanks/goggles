@@ -19,20 +19,30 @@
 
 ## Install
 
+Goggles can be run in a web browser (cross-platform) or as a standalone application (Mac only).
+
 ### Stable
 
 Grab the latest release from the [Releases](https://github.com/KyleBanks/goggles/releases) page. 
 
 ### From Source
 
-In order to build and run Goggles, there are a few steps you'll need to take:
+Regardless, there are a few steps you'll need to take in order to build and run Goggles from source:
 
 1. `go get github.com/KyleBanks/goggles/...`
-2. Install [Gallium](https://github.com/alexflint/gallium), in order to bundle the `.app`.
-3. Install [npm](https://www.npmjs.com/) and [Gulp](http://gulpjs.com/), in order to build the front-end assets.
-4. Run `make` to build and launch the application.
+2. Install [npm](https://www.npmjs.com/) and [Gulp](http://gulpjs.com/), in order to build the front-end assets.
+3. Install [go-bindata-assetfs](https://github.com/elazarl/go-bindata-assetfs) in order to bundle front-end assets into the Go binary.
 
-**Note:** Goggles is currently only available for Mac OS. If you'd like to see Goggles available on additional platforms, I encourage you to help contribute to the [Gallium](https://github.com/alexflint/gallium) project.
+#### Web Browser
+
+1. Run `make` to build and run Goggles in your web browser.
+
+#### Standalone (Mac Only)
+
+1. Install [Gallium](https://github.com/alexflint/gallium), in order to bundle the `.app`.
+2. Run `make app` to build and launch the application.
+
+**Note:** If you'd like to see Goggles available as a standalone application on additional platforms, I encourage you to help contribute to the [Gallium](https://github.com/alexflint/gallium) project.
 
 ## Contributing
 
@@ -44,9 +54,9 @@ Goggles was developed by [Kyle Banks](https://twitter.com/kylewbanks).
 
 ## Thanks
 
-The [Gopher](./_static/img) loading images were created by [Ashley McNamara](https://twitter.com/ashleymcnamara) and inspired by [Renee French](http://reneefrench.blogspot.co.uk/).
+The [Gopher](./static/img) loading images were created by [Ashley McNamara](https://twitter.com/ashleymcnamara) and inspired by [Renee French](http://reneefrench.blogspot.co.uk/).
 
-![Gopher](./_static/img/loader-1.png)
+![Gopher](./static/img/loader-1.png)
 
 ## License
 
