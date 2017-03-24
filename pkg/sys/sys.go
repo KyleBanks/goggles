@@ -15,7 +15,9 @@ const (
 )
 
 var (
-	cmdOpenTerminal = []string{"open", "-a", "Terminal"}
+	// CanOpenTerminal indicates if the current platform supports opening
+	// Terminal/command-line applications to a specific directory.
+	CanOpenTerminal bool
 
 	defaultGoPath = os.ExpandEnv("$HOME/go")
 )
@@ -29,8 +31,7 @@ func OpenFileExplorer(pkg string) {
 // OpenTerminal opens the system terminal (command line) application to the
 // specified package.
 func OpenTerminal(pkg string) {
-	args := append(cmdOpenTerminal[1:], AbsPath(pkg))
-	DefaultRunner.Run(cmdOpenTerminal[0], args...)
+	openTerminal(pkg)
 }
 
 // OpenBrowser opens the default browser to the url provided.

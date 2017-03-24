@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -16,22 +17,17 @@ func (m mockRunner) Run(cmd string, args ...string) ([]byte, error) { return m.r
 func Test_OpenTerminal(t *testing.T) {
 	expect := []string{os.ExpandEnv("$GOPATH"), "src", "github.com/KyleBanks/goggles"}
 
-	var gotCmd string
 	var gotArgs []string
 	DefaultRunner = mockRunner{
 		runFn: func(cmd string, args ...string) ([]byte, error) {
-			gotCmd = cmd
 			gotArgs = args
 			return nil, nil
 		},
 	}
 
 	OpenTerminal(expect[2])
-
-	if gotCmd != cmdOpenTerminal[0] {
-		t.Fatalf("Unexpected cmd, expected=%v, got=%v", cmdOpenTerminal[0], gotCmd)
-	} else if gotArgs[0] != cmdOpenTerminal[1] || gotArgs[1] != cmdOpenTerminal[2] || gotArgs[2] != filepath.Join(expect...) {
-		t.Fatalf("Unexpected args, expected=%v, %v, got=%v", cmdOpenTerminal[1:], filepath.Join(expect...), gotArgs)
+	if !strings.Contains(strings.Join(gotArgs, ","), expect[2]) {
+		t.Fatalf("Unexpected args, expected=%v, got=%v", expect, gotArgs)
 	}
 }
 

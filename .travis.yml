@@ -5,7 +5,5 @@ go:
 before_install:
   - go get github.com/mattn/goveralls
 
-# Note: Need to ignore all cmd/goggles files because gallium will not work on the linix travis instances.
 script:
-  - rm -rf cmd/goggles/
   - $HOME/gopath/bin/goveralls -service=travis-ci -ignore server/assets/bindata_assetfs.go 

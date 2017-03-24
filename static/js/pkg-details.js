@@ -10,8 +10,12 @@ var PkgDetailsController = {
     ],
     $functionT: document.getElementById("t-pkg-details-function"),
     $badgeT: document.getElementById("t-pkg-details-badge"),
+    $actionT: document.getElementById("t-pkg-details-action"),
 
-    _converter: new showdown.Converter(),
+    _converter: new showdown.Converter({
+        simplifiedAutoLink: true
+    }),
+
     _sections: [{
             title: "",
             key: "declaration",
@@ -33,11 +37,12 @@ var PkgDetailsController = {
             code: true
         }
     ],
+
+    _prefs: null,
     _pkg: null,
 
     activate: function(data) {
         var $this = PkgDetailsController;
-
         $this.load(data.name);
     },
 
@@ -66,7 +71,15 @@ var PkgDetailsController = {
         }
         $this._pkg = name;
 
-        API.getPkg(name, $this._onLoad);
+        API.getPreferences(function(err, prefs) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            $this._prefs = prefs;
+            API.getPkg(name, $this._onLoad);
+        });
     },
 
     _onLoad: function(err, res) {
@@ -85,7 +98,8 @@ var PkgDetailsController = {
             repository: res.docs.repository,
             import: res.docs.import,
             content: $this._renderPkg(0, res.docs),
-            badges: $this._renderBadges(res)
+            badges: $this._renderBadges(res),
+            actions: $this._renderActions(res)
         });
 
         // Bind events
@@ -113,7 +127,8 @@ var PkgDetailsController = {
                 $this._renderSection(headingNum, {
                     noCollapse: $this._sections[s].noCollapse,
                     title: $this._sections[s].title,
-                    content: $this._sections[s].code ? "<pre><code>" + c + "</code></pre>" : $this._converter.makeHtml(c)
+                    content: $this._sections[s].code ?
+                        "<pre><code>" + c + "</code></pre>" : $this._converter.makeHtml(c)
                 })
             );
         }
@@ -133,12 +148,9 @@ var PkgDetailsController = {
         var $this = PkgDetailsController,
             res = [];
 
-        // content.sort(function(a, b) {
-        //     return (a.name > b.name) ? 1 : -1;
-        // });
-
         for (var c = 0; c < content.length; c++) {
             var isType = content[c].type === "TYPE";
+
             res.push(
                 $this._renderSection(headingNum, {
                     title: content[c].header,
@@ -212,6 +224,44 @@ var PkgDetailsController = {
         }
 
         return badges.join("");
+    },
+
+    /**
+     * Renders the action buttons for a package.
+     * 
+     * @param pkg {Object}
+     */
+    _renderActions: function(pkg) {
+        var $this = PkgDetailsController,
+            actions = [];
+
+        actions.push(
+            Template.apply($this.$actionT, {
+                method: "openFileExplorer",
+                param: pkg.name,
+                text: "Folder"
+            })
+        );
+
+        if ($this._prefs.canOpenTerminal) {
+            actions.push(
+                Template.apply($this.$actionT, {
+                    method: "openTerminal",
+                    param: pkg.name,
+                    text: "Terminal"
+                })
+            );
+        }
+
+        actions.push(
+            Template.apply($this.$actionT, {
+                method: "openUrl",
+                param: pkg.docs.repository,
+                text: "Repo"
+            })
+        );
+
+        return actions.join("");
     },
 
     /**

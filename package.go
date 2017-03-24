@@ -65,6 +65,14 @@ func NewPackage(path string) (*Package, error) {
 		ResolveInternal: false,
 		MaxDepth:        1,
 	}
+
+	// Need to Chdir into the package directory.
+	//
+	// This only applies because the Goggles application itself is a package,
+	// and if you have Goggles and one of its dependencies in your GOPATH,
+	// the resolver will assume you want to import the dependency from goggles/vendor/.
+	os.Chdir(sys.AbsPath(path))
+
 	if err := t.Resolve(path); err != nil {
 		return nil, err
 	}
@@ -88,7 +96,7 @@ func (p *Package) makeDocs() error {
 		Name:       doc.Name,
 		Repository: repo(p.Name),
 		Import:     fmt.Sprintf("import \"%v\"", p.Name),
-		Usage:      doc.Doc,
+		Usage:      p.cleanDoc(doc.Doc),
 
 		Constants: p.printValues(doc.Consts),
 		Variables: p.printValues(doc.Vars),
@@ -113,13 +121,17 @@ func (p *Package) parseDocs() (*doc.Package, error) {
 	}
 
 	for _, pkg := range pkgs {
-		return doc.New(pkg, ".", 0), nil
+		return doc.New(pkg, sys.AbsPath(p.Name), 0), nil
 	}
 
 	return nil, nil
 }
 
 func (p *Package) printValues(vals []*doc.Value) string {
+	if vals == nil {
+		return ""
+	}
+
 	var b bytes.Buffer
 	for _, v := range vals {
 		fmt.Fprintf(&b, "%s\n%s", p.printToken(v.Decl), p.printToken(v.Doc))
@@ -129,6 +141,10 @@ func (p *Package) printValues(vals []*doc.Value) string {
 
 func (p *Package) printFuncs(funcs []*doc.Func) []Doc {
 	var docs []Doc
+	if funcs == nil {
+		return docs
+	}
+
 	for _, f := range funcs {
 		var receiver string
 		if f.Recv != "" {
@@ -139,7 +155,7 @@ func (p *Package) printFuncs(funcs []*doc.Func) []Doc {
 			Type: FunctionDoc,
 
 			Name:        f.Name,
-			Usage:       f.Doc,
+			Usage:       p.cleanDoc(f.Doc),
 			Header:      fmt.Sprintf("func %v%v", receiver, f.Name),
 			Declaration: p.printToken(f.Decl),
 		})
@@ -150,12 +166,16 @@ func (p *Package) printFuncs(funcs []*doc.Func) []Doc {
 
 func (p *Package) printTypes(types []*doc.Type) []Doc {
 	var docs []Doc
+	if types == nil {
+		return docs
+	}
+
 	for _, t := range types {
 		d := Doc{
 			Type: TypeDoc,
 
 			Name:        t.Name,
-			Usage:       t.Doc,
+			Usage:       p.cleanDoc(t.Doc),
 			Header:      fmt.Sprintf("type %v", t.Name),
 			Declaration: p.printToken(t.Decl),
 
@@ -183,6 +203,21 @@ func (p *Package) printToken(t interface{}) string {
 	}
 
 	return b.String()
+}
+
+func (p *Package) cleanDoc(doc string) string {
+	lines := strings.Split(doc, "\n")
+	for i, line := range lines {
+
+		// Be a little more lenient on the code blocks, allow three spaces
+		// instead of requiring four.
+		//replace(/\n   +/g, '\n\t')
+		if strings.HasPrefix(line, "   ") && !strings.HasPrefix(line, "    ") {
+			lines[i] = " " + line
+		}
+	}
+
+	return strings.Join(lines, "\n")
 }
 
 // hasTravis returns true if the current Package or the root directory of the repository

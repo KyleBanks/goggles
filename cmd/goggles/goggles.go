@@ -9,10 +9,11 @@ import (
 )
 
 func main() {
-	go func() {
-		time.Sleep(time.Millisecond * 500)
-		sys.OpenBrowser(cmd.Index)
-	}()
-
+	go openBrowser(time.Millisecond * 500)
 	cmd.StartServer()
+}
+
+func openBrowser(delay time.Duration) {
+	time.Sleep(delay)
+	sys.OpenBrowser(cmd.Index)
 }

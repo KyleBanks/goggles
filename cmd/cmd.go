@@ -8,9 +8,9 @@ import (
 	"os"
 
 	"github.com/KyleBanks/goggles"
-	"github.com/KyleBanks/goggles/conf"
 	"github.com/KyleBanks/goggles/pkg/sys"
 	"github.com/KyleBanks/goggles/server"
+	"github.com/KyleBanks/goggles/server/api"
 )
 
 const (
@@ -24,22 +24,28 @@ var (
 
 	// Index is the URL of the root index.html file.
 	Index = fmt.Sprintf("http://127.0.0.1:%v/static/index.html", port)
+
+	defaultProvider api.Provider = provider{goggles.Resolver{}}
 )
 
 func init() {
-	// Update the $GOPATH if a custom value is set.
-	c := conf.Get()
-	if c != nil && len(c.Gopath) > 0 {
-		sys.SetGopath(c.Gopath)
-	}
+	initConfig()
 
 	log.Printf("$GOPATH=%v, srcdir=%v", sys.Gopath(), sys.Srcdir())
 }
 
+func initConfig() {
+	c := defaultProvider.Preferences()
+
+	// Update the $GOPATH if a custom value is set.
+	if len(c.Gopath) > 0 {
+		sys.SetGopath(c.Gopath)
+	}
+}
+
 // StartServer starts the application server.
 func StartServer() {
-	p := provider{goggles.Resolver{}}
-	api := server.New(p)
+	api := server.New(defaultProvider)
 	addr := fmt.Sprintf(":%v", port)
 
 	log.Fatal(http.ListenAndServe(addr, api))
@@ -47,12 +53,12 @@ func StartServer() {
 
 // OpenAbout opens the 'About' page in a web browser.
 func OpenAbout() {
-	sys.OpenBrowser(aboutURL)
+	defaultProvider.OpenBrowser(aboutURL)
 }
 
 // OpenThanks opens the 'Thanks' page in a web browser.
 func OpenThanks() {
-	sys.OpenBrowser(thanksURL)
+	defaultProvider.OpenBrowser(thanksURL)
 }
 
 // Quit terminates the running application.

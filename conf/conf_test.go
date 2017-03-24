@@ -2,6 +2,8 @@ package conf
 
 import (
 	"testing"
+
+	"github.com/KyleBanks/goggles/pkg/sys"
 )
 
 type mockSaveLoader struct {
@@ -28,6 +30,8 @@ func Test_Get(t *testing.T) {
 	c := Get()
 	if c.Gopath != expect {
 		t.Fatalf("Expected Config returned, expected=%v, got=%v", expect, c)
+	} else if c.CanOpenTerminal != sys.CanOpenTerminal {
+		t.Fatalf("Unexpected CanOpenTerminal, expected=%v, got=%v", !c.CanOpenTerminal, c.CanOpenTerminal)
 	}
 }
 

@@ -32,7 +32,7 @@ assets:
 	npm install ; \
 	gulp 
 
-	@go-bindata-assetfs -ignore=node_modules -pkg assets static/... ; \
+	@go-bindata-assetfs -ignore=node_modules\|.DS_Store -pkg assets static/... ; \
 	mv bindata_assetfs.go server/assets/
 .PHONY: assets
 

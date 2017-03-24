@@ -72,20 +72,7 @@
 		<!-- Pkg Details -->
 		<div id="t-pkg-details">
 			<div class="actions float-right">
-				<button class="button button-outline" 
-					onclick="PkgDetailsController.openFileExplorer('{{fullName}}')">
-					Finder
-				</button>
-
-				<button class="button button-outline" 
-					onclick="PkgDetailsController.openTerminal('{{fullName}}')">
-					Terminal
-				</button>
-
-				<button class="button button-outline" 
-					onclick="PkgDetailsController.openUrl('{{repository}}')">
-					Repo
-				</button>
+				{{actions}}
 			</div>
 	
 			<h1>{{name}}</h1>
@@ -125,6 +112,11 @@
 		<a id="t-pkg-details-badge" href="#" onclick="PkgDetailsController.openUrl('{{url}}')">
 			<img src="{{image}}" width="{{width}}" height="{{height}}" />
 		</a>
+
+		<button id="t-pkg-details-action" class="button button-outline" 
+			onclick="PkgDetailsController.{{method}}('{{param}}')">
+			{{text}}
+		</button>
 
 		<!-- Toast -->
 		<div id="t-toast" class="toast">

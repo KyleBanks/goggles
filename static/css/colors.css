@@ -1,5 +1,3 @@
-/* https://color.adobe.com/Quiet-Cry-color-theme-124171/ */
-
 /* General */
 body {
     color: #445878;
@@ -7,7 +5,7 @@ body {
 }
 
 a {
-    color: #EEEFF7;
+    color: #31353D;
 }
 
 a:hover {
@@ -42,6 +40,10 @@ pre, code {
 #pkg-list .header {
     color: #EEEFF7;
     background: #1C1D21;
+}
+
+#pkg-list a {
+    color: #EEEFF7;
 }
 
 #pkg-list .pkg.active a, #pkg-list .pkg.active a:focus {
