@@ -3,15 +3,15 @@ package cmd
 import (
 	"log"
 
-	"github.com/KyleBanks/goggles"
 	"github.com/KyleBanks/goggles/conf"
 	"github.com/KyleBanks/goggles/pkg/sys"
+	"github.com/KyleBanks/goggles/resolver"
 )
 
 // provider wraps the Goggles packages into a single type
 // that can provide all functionality to the API.
 type provider struct {
-	goggles.Resolver
+	resolver.Resolver
 }
 
 func (provider) OpenFileExplorer(n string) {

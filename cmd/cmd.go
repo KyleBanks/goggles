@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/KyleBanks/goggles"
 	"github.com/KyleBanks/goggles/pkg/sys"
+	"github.com/KyleBanks/goggles/resolver"
 	"github.com/KyleBanks/goggles/server"
 	"github.com/KyleBanks/goggles/server/api"
 )
@@ -25,7 +25,7 @@ var (
 	// Index is the URL of the root index.html file.
 	Index = fmt.Sprintf("http://127.0.0.1:%v/static/index.html", port)
 
-	defaultProvider api.Provider = provider{goggles.Resolver{}}
+	defaultProvider api.Provider = provider{resolver.Resolver{}}
 )
 
 func init() {

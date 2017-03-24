@@ -4,18 +4,18 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/KyleBanks/goggles"
+	"github.com/KyleBanks/goggles/resolver"
 )
 
 func Test_pkgList(t *testing.T) {
 	m := setup()
 
-	expect := []*goggles.Package{
-		&goggles.Package{Docs: &goggles.Doc{Name: "Name 1"}},
-		&goggles.Package{Docs: &goggles.Doc{Name: "Name 2"}},
-		&goggles.Package{Docs: &goggles.Doc{Name: "Name 3"}},
+	expect := []*resolver.Package{
+		&resolver.Package{Docs: &resolver.Doc{Name: "Name 1"}},
+		&resolver.Package{Docs: &resolver.Doc{Name: "Name 2"}},
+		&resolver.Package{Docs: &resolver.Doc{Name: "Name 3"}},
 	}
-	m.ListFn = func() ([]*goggles.Package, error) {
+	m.ListFn = func() ([]*resolver.Package, error) {
 		return expect, nil
 	}
 
@@ -23,7 +23,7 @@ func Test_pkgList(t *testing.T) {
 	w := httptest.NewRecorder()
 	pkgList(w, r)
 
-	var pkgs []*goggles.Package
+	var pkgs []*resolver.Package
 	validateResponse(t, w, &pkgs)
 
 	if len(pkgs) != len(expect) {
@@ -40,13 +40,13 @@ func Test_pkgDetails(t *testing.T) {
 	m := setup()
 
 	name := "foo/bar"
-	expect := goggles.Package{
-		Docs: &goggles.Doc{
+	expect := resolver.Package{
+		Docs: &resolver.Doc{
 			Name:   name,
 			Import: "import \"foo/bar\"",
 		},
 	}
-	m.DetailsFn = func(s string) (*goggles.Package, error) {
+	m.DetailsFn = func(s string) (*resolver.Package, error) {
 		if s != name {
 			t.Fatalf("Unexpected name, expected=%v, got=%v", name, s)
 		}
@@ -57,7 +57,7 @@ func Test_pkgDetails(t *testing.T) {
 	w := httptest.NewRecorder()
 	pkgDetails(w, r)
 
-	var pkg goggles.Package
+	var pkg resolver.Package
 	validateResponse(t, w, &pkg)
 
 	if pkg.Docs.Name != expect.Docs.Name || pkg.Docs.Import != expect.Docs.Import {

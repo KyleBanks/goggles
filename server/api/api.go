@@ -5,8 +5,8 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/KyleBanks/goggles"
 	"github.com/KyleBanks/goggles/conf"
+	"github.com/KyleBanks/goggles/resolver"
 )
 
 var provider Provider
@@ -14,8 +14,8 @@ var provider Provider
 // Provider is a type that provides access to package data, the host operating system,
 // and anything else the API requires to function.
 type Provider interface {
-	List() ([]*goggles.Package, error)
-	Details(string) (*goggles.Package, error)
+	List() ([]*resolver.Package, error)
+	Details(string) (*resolver.Package, error)
 
 	OpenFileExplorer(string)
 	OpenTerminal(string)

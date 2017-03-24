@@ -8,13 +8,13 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/KyleBanks/goggles"
 	"github.com/KyleBanks/goggles/conf"
+	"github.com/KyleBanks/goggles/resolver"
 )
 
 type mockProvider struct {
-	ListFn    func() ([]*goggles.Package, error)
-	DetailsFn func(string) (*goggles.Package, error)
+	ListFn    func() ([]*resolver.Package, error)
+	DetailsFn func(string) (*resolver.Package, error)
 
 	OpenFileExplorerFn func(string)
 	OpenTerminalFn     func(string)
@@ -24,13 +24,13 @@ type mockProvider struct {
 	updatePreferencesFn func(*conf.Config)
 }
 
-func (m *mockProvider) List() ([]*goggles.Package, error)          { return m.ListFn() }
-func (m *mockProvider) Details(n string) (*goggles.Package, error) { return m.DetailsFn(n) }
-func (m *mockProvider) OpenFileExplorer(n string)                  { m.OpenFileExplorerFn(n) }
-func (m *mockProvider) OpenTerminal(n string)                      { m.OpenTerminalFn(n) }
-func (m *mockProvider) OpenBrowser(n string)                       { m.OpenBrowserFn(n) }
-func (m *mockProvider) Preferences() *conf.Config                  { return m.preferencesFn() }
-func (m *mockProvider) UpdatePreferences(c *conf.Config)           { m.updatePreferencesFn(c) }
+func (m *mockProvider) List() ([]*resolver.Package, error)          { return m.ListFn() }
+func (m *mockProvider) Details(n string) (*resolver.Package, error) { return m.DetailsFn(n) }
+func (m *mockProvider) OpenFileExplorer(n string)                   { m.OpenFileExplorerFn(n) }
+func (m *mockProvider) OpenTerminal(n string)                       { m.OpenTerminalFn(n) }
+func (m *mockProvider) OpenBrowser(n string)                        { m.OpenBrowserFn(n) }
+func (m *mockProvider) Preferences() *conf.Config                   { return m.preferencesFn() }
+func (m *mockProvider) UpdatePreferences(c *conf.Config)            { m.updatePreferencesFn(c) }
 
 func setup() *mockProvider {
 	m := &mockProvider{}

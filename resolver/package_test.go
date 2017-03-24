@@ -1,11 +1,11 @@
-package goggles
+package resolver
 
 import (
 	"testing"
 )
 
 func Test_NewPackage(t *testing.T) {
-	path := "github.com/KyleBanks/goggles"
+	path := "github.com/KyleBanks/goggles/resolver"
 	p, err := NewPackage(path)
 	if err != nil {
 		t.Fatal(err)

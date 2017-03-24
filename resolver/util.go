@@ -1,4 +1,4 @@
-package goggles
+package resolver
 
 import (
 	"strings"

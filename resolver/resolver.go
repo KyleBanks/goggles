@@ -1,4 +1,5 @@
-package goggles
+// Package resolver provides the ability to locate and document go source packages.
+package resolver
 
 import (
 	"log"
