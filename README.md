@@ -23,8 +23,6 @@
 
 Grab the latest release from the [Releases](https://github.com/KyleBanks/goggles/releases) page. 
 
-**Note:**  If you have a custom `$GOPATH` it's currently a known issue that Goggles must be run via the command-line with `open Goggles.app`, simply double-clicking `Goggles.app` will only work with the default of `$HOME/go`.
-
 ### From Source
 
 In order to build and run Goggles, there are a few steps you'll need to take:
