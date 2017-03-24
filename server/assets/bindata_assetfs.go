@@ -29,10 +29,10 @@
 package assets
 
 import (
-	"github.com/elazarl/go-bindata-assetfs"
 	"bytes"
 	"compress/gzip"
 	"fmt"
+	"github.com/elazarl/go-bindata-assetfs"
 	"io"
 	"io/ioutil"
 	"os"
@@ -147,7 +147,7 @@ func staticCssColorsCss() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/css/colors.css", size: 989, mode: os.FileMode(420), modTime: time.Unix(1490322232, 0)}
+	info := bindataFileInfo{name: "static/css/colors.css", size: 989, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -227,7 +227,7 @@ func staticCssMainCss() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/css/main.css", size: 3303, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/css/main.css", size: 3303, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -367,7 +367,7 @@ func staticJsApiJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/api.js", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/js/api.js", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -427,7 +427,7 @@ func staticJsLoaderJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/loader.js", size: 1318, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/js/loader.js", size: 1318, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -447,7 +447,7 @@ func staticJsPkgDetailsJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/pkg-details.js", size: 7099, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/js/pkg-details.js", size: 7099, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -467,7 +467,7 @@ func staticJsPkgListJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/pkg-list.js", size: 3650, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/js/pkg-list.js", size: 3650, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -487,7 +487,7 @@ func staticJsPreferencesJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/preferences.js", size: 1010, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/js/preferences.js", size: 1010, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -507,7 +507,7 @@ func staticJsStateJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/state.js", size: 714, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/js/state.js", size: 714, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -527,7 +527,7 @@ func staticJsTemplateJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/template.js", size: 747, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/js/template.js", size: 747, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -547,7 +547,7 @@ func staticJsToastJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/toast.js", size: 480, mode: os.FileMode(420), modTime: time.Unix(1490322233, 0)}
+	info := bindataFileInfo{name: "static/js/toast.js", size: 480, mode: os.FileMode(420), modTime: time.Unix(1490356260, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -624,30 +624,30 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"static/.DS_Store": staticDs_store,
-	"static/css/.DS_Store": staticCssDs_store,
-	"static/css/colors.css": staticCssColorsCss,
+	"static/.DS_Store":                 staticDs_store,
+	"static/css/.DS_Store":             staticCssDs_store,
+	"static/css/colors.css":            staticCssColorsCss,
 	"static/css/lib/milligram.min.css": staticCssLibMilligramMinCss,
-	"static/css/lib/normalize.css": staticCssLibNormalizeCss,
-	"static/css/lib/prettify.css": staticCssLibPrettifyCss,
-	"static/css/main.css": staticCssMainCss,
-	"static/gulpfile.js": staticGulpfileJs,
-	"static/img/loader-1.png": staticImgLoader1Png,
-	"static/img/loader-2.png": staticImgLoader2Png,
-	"static/img/loader-3.png": staticImgLoader3Png,
-	"static/index.html": staticIndexHtml,
-	"static/js/.DS_Store": staticJsDs_store,
-	"static/js/api.js": staticJsApiJs,
-	"static/js/lib/prettify.js": staticJsLibPrettifyJs,
-	"static/js/lib/showdown.1.6.3.js": staticJsLibShowdown163Js,
-	"static/js/loader.js": staticJsLoaderJs,
-	"static/js/pkg-details.js": staticJsPkgDetailsJs,
-	"static/js/pkg-list.js": staticJsPkgListJs,
-	"static/js/preferences.js": staticJsPreferencesJs,
-	"static/js/state.js": staticJsStateJs,
-	"static/js/template.js": staticJsTemplateJs,
-	"static/js/toast.js": staticJsToastJs,
-	"static/package.json": staticPackageJson,
+	"static/css/lib/normalize.css":     staticCssLibNormalizeCss,
+	"static/css/lib/prettify.css":      staticCssLibPrettifyCss,
+	"static/css/main.css":              staticCssMainCss,
+	"static/gulpfile.js":               staticGulpfileJs,
+	"static/img/loader-1.png":          staticImgLoader1Png,
+	"static/img/loader-2.png":          staticImgLoader2Png,
+	"static/img/loader-3.png":          staticImgLoader3Png,
+	"static/index.html":                staticIndexHtml,
+	"static/js/.DS_Store":              staticJsDs_store,
+	"static/js/api.js":                 staticJsApiJs,
+	"static/js/lib/prettify.js":        staticJsLibPrettifyJs,
+	"static/js/lib/showdown.1.6.3.js":  staticJsLibShowdown163Js,
+	"static/js/loader.js":              staticJsLoaderJs,
+	"static/js/pkg-details.js":         staticJsPkgDetailsJs,
+	"static/js/pkg-list.js":            staticJsPkgListJs,
+	"static/js/preferences.js":         staticJsPreferencesJs,
+	"static/js/state.js":               staticJsStateJs,
+	"static/js/template.js":            staticJsTemplateJs,
+	"static/js/toast.js":               staticJsToastJs,
+	"static/package.json":              staticPackageJson,
 }
 
 // AssetDir returns the file names below a certain
@@ -689,16 +689,17 @@ type bintree struct {
 	Func     func() (*asset, error)
 	Children map[string]*bintree
 }
+
 var _bintree = &bintree{nil, map[string]*bintree{
 	"static": &bintree{nil, map[string]*bintree{
 		".DS_Store": &bintree{staticDs_store, map[string]*bintree{}},
 		"css": &bintree{nil, map[string]*bintree{
-			".DS_Store": &bintree{staticCssDs_store, map[string]*bintree{}},
+			".DS_Store":  &bintree{staticCssDs_store, map[string]*bintree{}},
 			"colors.css": &bintree{staticCssColorsCss, map[string]*bintree{}},
 			"lib": &bintree{nil, map[string]*bintree{
 				"milligram.min.css": &bintree{staticCssLibMilligramMinCss, map[string]*bintree{}},
-				"normalize.css": &bintree{staticCssLibNormalizeCss, map[string]*bintree{}},
-				"prettify.css": &bintree{staticCssLibPrettifyCss, map[string]*bintree{}},
+				"normalize.css":     &bintree{staticCssLibNormalizeCss, map[string]*bintree{}},
+				"prettify.css":      &bintree{staticCssLibPrettifyCss, map[string]*bintree{}},
 			}},
 			"main.css": &bintree{staticCssMainCss, map[string]*bintree{}},
 		}},
@@ -711,18 +712,18 @@ var _bintree = &bintree{nil, map[string]*bintree{
 		"index.html": &bintree{staticIndexHtml, map[string]*bintree{}},
 		"js": &bintree{nil, map[string]*bintree{
 			".DS_Store": &bintree{staticJsDs_store, map[string]*bintree{}},
-			"api.js": &bintree{staticJsApiJs, map[string]*bintree{}},
+			"api.js":    &bintree{staticJsApiJs, map[string]*bintree{}},
 			"lib": &bintree{nil, map[string]*bintree{
-				"prettify.js": &bintree{staticJsLibPrettifyJs, map[string]*bintree{}},
+				"prettify.js":       &bintree{staticJsLibPrettifyJs, map[string]*bintree{}},
 				"showdown.1.6.3.js": &bintree{staticJsLibShowdown163Js, map[string]*bintree{}},
 			}},
-			"loader.js": &bintree{staticJsLoaderJs, map[string]*bintree{}},
+			"loader.js":      &bintree{staticJsLoaderJs, map[string]*bintree{}},
 			"pkg-details.js": &bintree{staticJsPkgDetailsJs, map[string]*bintree{}},
-			"pkg-list.js": &bintree{staticJsPkgListJs, map[string]*bintree{}},
+			"pkg-list.js":    &bintree{staticJsPkgListJs, map[string]*bintree{}},
 			"preferences.js": &bintree{staticJsPreferencesJs, map[string]*bintree{}},
-			"state.js": &bintree{staticJsStateJs, map[string]*bintree{}},
-			"template.js": &bintree{staticJsTemplateJs, map[string]*bintree{}},
-			"toast.js": &bintree{staticJsToastJs, map[string]*bintree{}},
+			"state.js":       &bintree{staticJsStateJs, map[string]*bintree{}},
+			"template.js":    &bintree{staticJsTemplateJs, map[string]*bintree{}},
+			"toast.js":       &bintree{staticJsToastJs, map[string]*bintree{}},
 		}},
 		"package.json": &bintree{staticPackageJson, map[string]*bintree{}},
 	}},
@@ -774,7 +775,6 @@ func _filePath(dir, name string) string {
 	cannonicalName := strings.Replace(name, "\\", "/", -1)
 	return filepath.Join(append([]string{dir}, strings.Split(cannonicalName, "/")...)...)
 }
-
 
 func assetFS() *assetfs.AssetFS {
 	assetInfo := func(path string) (os.FileInfo, error) {

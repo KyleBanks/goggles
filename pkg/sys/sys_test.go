@@ -3,6 +3,7 @@ package sys
 import (
 	"os"
 	"path/filepath"
+	"reflect"
 	"testing"
 )
 
@@ -13,8 +14,7 @@ type mockRunner struct {
 func (m mockRunner) Run(cmd string, args ...string) ([]byte, error) { return m.runFn(cmd, args...) }
 
 func Test_OpenTerminal(t *testing.T) {
-	expect := []string{"/foo/bar/gopath", "src", "github.com/foo/bar"}
-	os.Setenv("GOPATH", expect[0])
+	expect := []string{os.ExpandEnv("$GOPATH"), "src", "github.com/KyleBanks/goggles"}
 
 	var gotCmd string
 	var gotArgs []string
@@ -36,8 +36,7 @@ func Test_OpenTerminal(t *testing.T) {
 }
 
 func Test_AbsPath(t *testing.T) {
-	expect := []string{"/foo/bar/gopath", "src", "github.com/foo/bar"}
-	os.Setenv("GOPATH", expect[0])
+	expect := []string{os.ExpandEnv("$GOPATH"), "src", "github.com/foo/bar"}
 
 	if AbsPath(expect[2]) != filepath.Join(expect...) {
 		t.Fatalf("Unexpected AbsPath, expected=%v, got=%v", filepath.Join(expect...), AbsPath(expect[2]))
@@ -45,27 +44,59 @@ func Test_AbsPath(t *testing.T) {
 }
 
 func Test_Srcdir(t *testing.T) {
-	expect := []string{"/foo/bar/gopath", "src"}
-	os.Setenv("GOPATH", expect[0])
+	tests := []struct {
+		env    string
+		expect []string
+	}{
+		{"/foo/bar/path", []string{"/foo/bar/path/src"}},
+		{"/foo/bar/path:/other/path", []string{"/foo/bar/path/src", "/other/path/src"}},
+		{"", []string{defaultGoPath + "/src"}},
+	}
 
-	if Srcdir() != filepath.Join(expect...) {
-		t.Fatalf("Unexpected Srcdir, expected=%v, got=%v", filepath.Join(expect...), Srcdir())
+	for idx, tt := range tests {
+		os.Setenv("GOPATH", tt.env)
+
+		if got := Srcdir(); !reflect.DeepEqual(got, tt.expect) {
+			t.Fatalf("[%v] Unexpected Srcdir, expected=%v, got=%v", idx, tt.expect, got)
+		}
 	}
 }
 
 func Test_Gopath(t *testing.T) {
-	// GOPATH avaiable
-	expect := "/foo/bar/path"
-	os.Setenv("GOPATH", expect)
-	if Gopath() != expect {
-		t.Fatalf("Unexpected Gopath, expected=%v, got=%v", expect, Gopath())
+	tests := []struct {
+		env    string
+		expect []string
+	}{
+		{"/foo/bar/path", []string{"/foo/bar/path"}},
+		{"/foo/bar/path:/other/path", []string{"/foo/bar/path", "/other/path"}},
+		{"", []string{defaultGoPath}},
 	}
 
-	// Default
-	expect = defaultGoPath
-	os.Setenv("GOPATH", "")
-	if Gopath() != expect {
-		t.Fatalf("Unexpected Gopath, expected=%v, got=%v", expect, Gopath())
+	for idx, tt := range tests {
+		os.Setenv("GOPATH", tt.env)
+
+		if got := Gopath(); !reflect.DeepEqual(got, tt.expect) {
+			t.Fatalf("[%v] Unexpected Gopath, expected=%v, got=%v", idx, tt.expect, got)
+		}
+	}
+}
+
+func Test_RawGopath(t *testing.T) {
+	tests := []struct {
+		env    string
+		expect string
+	}{
+		{"/foo/bar/path", "/foo/bar/path"},
+		{"/foo/bar/path:/other/path", "/foo/bar/path:/other/path"},
+		{"", defaultGoPath},
+	}
+
+	for idx, tt := range tests {
+		os.Setenv("GOPATH", tt.env)
+
+		if got := RawGopath(); got != tt.expect {
+			t.Fatalf("[%v] Unexpected RawGopath, expected=%v, got=%v", idx, tt.expect, got)
+		}
 	}
 }
 

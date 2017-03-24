@@ -38,7 +38,7 @@ func init() {
 
 // StartServer starts the application server.
 func StartServer() {
-	p := provider{goggles.Service{}}
+	p := provider{goggles.Resolver{}}
 	api := server.New(p)
 	addr := fmt.Sprintf(":%v", port)
 

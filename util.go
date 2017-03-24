@@ -13,8 +13,17 @@ var (
 // cleanPath sanitizes a package path by removing the $GOPATH/src portion
 // and any prefixed slashes.
 func cleanPath(path string) string {
-	path = strings.Replace(path, sys.Srcdir(), "", 1)
-	if strings.HasPrefix(path, "/") {
+	// Remove the first Srcdir prefix found
+	for _, dir := range sys.Srcdir() {
+		if !strings.HasPrefix(path, dir) {
+			continue
+		}
+
+		path = strings.Replace(path, dir, "", 1)
+		break
+	}
+
+	if strings.HasPrefix(path, "/") || strings.HasPrefix(path, "\\") {
 		path = path[1:]
 	}
 	return path

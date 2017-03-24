@@ -12,7 +12,7 @@ func Test_cleanPath(t *testing.T) {
 		out string
 	}{
 		{"/foo/bar", "foo/bar"},
-		{sys.Srcdir() + "/foo/bar", "foo/bar"},
+		{sys.Srcdir()[0] + "/foo/bar", "foo/bar"},
 	}
 
 	for idx, tt := range tests {

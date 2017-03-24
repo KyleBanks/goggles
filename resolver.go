@@ -9,13 +9,14 @@ import (
 	"github.com/KyleBanks/goggles/pkg/sys"
 )
 
-// Service is a pkg service that can access go packages.
-type Service struct{}
+// Resolver is a type that can access go packages and
+// resolve their details.
+type Resolver struct{}
 
 // List returns a list of all packages in the $GOPATH.
-func (s Service) List() ([]*Package, error) {
+func (r Resolver) List() ([]*Package, error) {
 	ch := make(chan *Package, 0)
-	expect := s.walkPackages(ch)
+	expect := r.walkPackages(ch)
 
 	// Wait for all the results and append them to the slice.
 	var pkgs []*Package
@@ -30,7 +31,7 @@ func (s Service) List() ([]*Package, error) {
 }
 
 // Details returns the full details of a Package.
-func (Service) Details(name string) (*Package, error) {
+func (Resolver) Details(name string) (*Package, error) {
 	p, err := NewPackage(name)
 	if err != nil {
 		return nil, err
@@ -47,7 +48,7 @@ func (Service) Details(name string) (*Package, error) {
 // the gopath.
 //
 // The return value is the number of packages to expect to receive on the channel.
-func (Service) walkPackages(ch chan *Package) int {
+func (Resolver) walkPackages(ch chan *Package) int {
 	var count int
 	visit := func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -77,6 +78,9 @@ func (Service) walkPackages(ch chan *Package) int {
 		return nil
 	}
 
-	filepath.Walk(sys.Srcdir(), visit)
+	for _, dir := range sys.Srcdir() {
+		filepath.Walk(dir, visit)
+	}
+
 	return count
 }

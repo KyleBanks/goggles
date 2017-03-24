@@ -9,8 +9,9 @@ import (
 )
 
 const (
-	srcDirName = "src"
-	gopathEnv  = "GOPATH"
+	srcDirName      = "src"
+	gopathEnv       = "GOPATH"
+	gopathSeperator = ":"
 )
 
 var (
@@ -43,17 +44,40 @@ func OpenBrowser(url string) {
 
 // AbsPath returns the absolute path to a package from it's name.
 func AbsPath(pkg string) string {
-	return filepath.Join(Srcdir(), pkg)
+	srcDirs := Srcdir()
+	for _, d := range srcDirs {
+		info, err := os.Stat(d)
+		if err != nil || !info.IsDir() {
+			continue
+
+		}
+
+		return filepath.Join(d, pkg)
+	}
+
+	return ""
 }
 
-// Srcdir returns the source directory for go packages.
-func Srcdir() string {
-	return filepath.Join(Gopath(), srcDirName)
+// Srcdir returns the source directory(s) for go packages.
+func Srcdir() []string {
+	gopaths := Gopath()
+	srcDirs := make([]string, len(gopaths), len(gopaths))
+	for i, p := range gopaths {
+		srcDirs[i] = filepath.Join(p, srcDirName)
+	}
+	return srcDirs
 }
 
-// Gopath returns the $GOPATH environment variable, defaulting to $HOME/go
+// Gopath returns the system GOPATH(s), defaulting to $HOME/go
 // if the environment variable is not set.
-func Gopath() string {
+func Gopath() []string {
+	return strings.Split(RawGopath(), gopathSeperator)
+}
+
+// RawGopath returns the system GOPATH, defaulting to $HOME/go
+// if the environment variable is not set, as a string regardless
+// of how many GOPATHs are actually set.
+func RawGopath() string {
 	gopath := os.Getenv(gopathEnv)
 	if len(gopath) == 0 {
 		gopath = defaultGoPath

@@ -11,7 +11,7 @@ import (
 // provider wraps the Goggles packages into a single type
 // that can provide all functionality to the API.
 type provider struct {
-	goggles.Service
+	goggles.Resolver
 }
 
 func (provider) OpenFileExplorer(n string) {
@@ -31,7 +31,7 @@ func (provider) Preferences() *conf.Config {
 
 	// Set defaults
 	if len(c.Gopath) == 0 {
-		c.Gopath = sys.Gopath()
+		c.Gopath = sys.RawGopath()
 	}
 
 	return c

@@ -4,9 +4,9 @@ import (
 	"testing"
 )
 
-func TestService_List(t *testing.T) {
-	var s Service
-	pkgs, err := s.List()
+func TestResolver_List(t *testing.T) {
+	var r Resolver
+	pkgs, err := r.List()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -33,9 +33,9 @@ func TestService_List(t *testing.T) {
 	}
 }
 
-func TestService_Details(t *testing.T) {
-	var s Service
-	p, err := s.Details("github.com/KyleBanks/goggles")
+func TestResolver_Details(t *testing.T) {
+	var r Resolver
+	p, err := r.Details("github.com/KyleBanks/goggles")
 	if err != nil {
 		t.Fatal(err)
 	}
