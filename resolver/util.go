@@ -29,8 +29,8 @@ func cleanPath(path string) string {
 	return path
 }
 
-// ignorePkg checks if the path provided should be ignored.
-func ignorePkg(path string) bool {
+// ignore checks if the path provided should be ignored.
+func ignore(path string) bool {
 	if len(path) == 0 {
 		return true
 	}
@@ -56,4 +56,21 @@ func repo(pkg string) string {
 	}
 
 	return strings.Join(components[0:3], "/")
+}
+
+// docs performs any tweaks necessary to the documentation (function, package, type, etc.)
+// provided and returns the results.
+func docs(doc string) string {
+	lines := strings.Split(doc, "\n")
+	for i, line := range lines {
+
+		// Be a little more lenient on the code blocks, allow three spaces
+		// instead of requiring four.
+		//replace(/\n   +/g, '\n\t')
+		if strings.HasPrefix(line, "   ") && !strings.HasPrefix(line, "    ") {
+			lines[i] = " " + line
+		}
+	}
+
+	return strings.Join(lines, "\n")
 }

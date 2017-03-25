@@ -26,6 +26,10 @@ const (
 	travisFile = ".travis.yml"
 )
 
+var (
+	errPackageNotFound = depth.ErrRootPkgNotResolved
+)
+
 // DocType defines a type of documentation.
 type DocType string
 
@@ -85,7 +89,7 @@ func NewPackage(path string) (*Package, error) {
 // makeDocs retrieves the documentation for a package and attaches it to the Package.
 func (p *Package) makeDocs() error {
 	p.files = token.NewFileSet()
-	doc, err := p.parseDocs()
+	d, err := p.parseDocs()
 	if err != nil {
 		return err
 	}
@@ -93,39 +97,24 @@ func (p *Package) makeDocs() error {
 	p.Docs = &Doc{
 		Type: PackageDoc,
 
-		Name:       doc.Name,
+		Name:       d.Name,
 		Repository: repo(p.Name),
 		Import:     fmt.Sprintf("import \"%v\"", p.Name),
-		Usage:      p.cleanDoc(doc.Doc),
+		Usage:      docs(d.Doc),
 
-		Constants: p.printValues(doc.Consts),
-		Variables: p.printValues(doc.Vars),
+		Constants: p.values(d.Consts),
+		Variables: p.values(d.Vars),
 		HasTravis: p.hasTravis(),
 	}
-	p.Docs.Content = append(p.Docs.Content, p.printFuncs(doc.Funcs)...)
-	p.Docs.Content = append(p.Docs.Content, p.printTypes(doc.Types)...)
+	p.Docs.Content = append(p.Docs.Content, p.funcs(d.Funcs)...)
+	p.Docs.Content = append(p.Docs.Content, p.types(d.Types)...)
 
 	return nil
 }
 
 // parseDocs parses the package documentation.
 func (p *Package) parseDocs() (*doc.Package, error) {
-	filter := func(file os.FileInfo) bool {
-		name := file.Name()
-		if strings.HasPrefix(name, ".") || !strings.HasSuffix(name, ".go") || strings.HasSuffix(name, "_test.go") {
-			return false
-		}
-
-		for _, i := range p.Raw.IgnoredGoFiles {
-			if name == i {
-				return false
-			}
-		}
-
-		return true
-	}
-
-	pkgs, err := parser.ParseDir(p.files, sys.AbsPath(p.Name), filter, parser.ParseComments)
+	pkgs, err := parser.ParseDir(p.files, sys.AbsPath(p.Name), p.isFileValid, parser.ParseComments)
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +126,24 @@ func (p *Package) parseDocs() (*doc.Package, error) {
 	return nil, nil
 }
 
-func (p *Package) printValues(vals []*doc.Value) string {
+// isFileValid checks if the provided file is valid go source code and does
+// not contain '// +build ignore' (or similar).
+func (p *Package) isFileValid(file os.FileInfo) bool {
+	name := file.Name()
+	if strings.HasPrefix(name, ".") || !strings.HasSuffix(name, ".go") || strings.HasSuffix(name, "_test.go") {
+		return false
+	}
+
+	for _, i := range p.Raw.IgnoredGoFiles {
+		if name == i {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (p *Package) values(vals []*doc.Value) string {
 	if vals == nil {
 		return ""
 	}
@@ -149,10 +155,10 @@ func (p *Package) printValues(vals []*doc.Value) string {
 	return b.String()
 }
 
-func (p *Package) printFuncs(funcs []*doc.Func) []Doc {
-	var docs []Doc
+func (p *Package) funcs(funcs []*doc.Func) []Doc {
+	var d []Doc
 	if funcs == nil {
-		return docs
+		return d
 	}
 
 	for _, f := range funcs {
@@ -161,44 +167,44 @@ func (p *Package) printFuncs(funcs []*doc.Func) []Doc {
 			receiver = fmt.Sprintf("(%s) ", f.Recv)
 		}
 
-		docs = append(docs, Doc{
+		d = append(d, Doc{
 			Type: FunctionDoc,
 
 			Name:        f.Name,
-			Usage:       p.cleanDoc(f.Doc),
+			Usage:       docs(f.Doc),
 			Header:      fmt.Sprintf("func %v%v", receiver, f.Name),
 			Declaration: p.printToken(f.Decl),
 		})
 	}
 
-	return docs
+	return d
 }
 
-func (p *Package) printTypes(types []*doc.Type) []Doc {
-	var docs []Doc
+func (p *Package) types(types []*doc.Type) []Doc {
+	var d []Doc
 	if types == nil {
-		return docs
+		return d
 	}
 
 	for _, t := range types {
-		d := Doc{
+		doc := Doc{
 			Type: TypeDoc,
 
 			Name:        t.Name,
-			Usage:       p.cleanDoc(t.Doc),
+			Usage:       docs(t.Doc),
 			Header:      fmt.Sprintf("type %v", t.Name),
 			Declaration: p.printToken(t.Decl),
 
-			Constants: p.printValues(t.Consts),
-			Variables: p.printValues(t.Vars),
+			Constants: p.values(t.Consts),
+			Variables: p.values(t.Vars),
 		}
-		d.Content = append(d.Content, p.printFuncs(t.Funcs)...)
-		d.Content = append(d.Content, p.printFuncs(t.Methods)...)
+		doc.Content = append(doc.Content, p.funcs(t.Funcs)...)
+		doc.Content = append(doc.Content, p.funcs(t.Methods)...)
 
-		docs = append(docs, d)
+		d = append(d, doc)
 	}
 
-	return docs
+	return d
 }
 
 func (p *Package) printToken(t interface{}) string {
@@ -213,21 +219,6 @@ func (p *Package) printToken(t interface{}) string {
 	}
 
 	return b.String()
-}
-
-func (p *Package) cleanDoc(doc string) string {
-	lines := strings.Split(doc, "\n")
-	for i, line := range lines {
-
-		// Be a little more lenient on the code blocks, allow three spaces
-		// instead of requiring four.
-		//replace(/\n   +/g, '\n\t')
-		if strings.HasPrefix(line, "   ") && !strings.HasPrefix(line, "    ") {
-			lines[i] = " " + line
-		}
-	}
-
-	return strings.Join(lines, "\n")
 }
 
 // hasTravis returns true if the current Package or the root directory of the repository

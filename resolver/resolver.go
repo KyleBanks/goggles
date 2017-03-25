@@ -6,7 +6,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/KyleBanks/depth"
 	"github.com/KyleBanks/goggles/pkg/sys"
 )
 
@@ -45,11 +44,11 @@ func (Resolver) Details(name string) (*Package, error) {
 	return p, nil
 }
 
-// walkPackages sends a Package on the provided channel for each package found in
-// the gopath.
+// walkPackages returns a Package on the provided channel for each package found in
+// the GOPATH.
 //
 // The return value is the number of packages to expect to receive on the channel.
-func (Resolver) walkPackages(ch chan *Package) int {
+func (r Resolver) walkPackages(ch chan *Package) int {
 	var count int
 	visit := func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -59,23 +58,12 @@ func (Resolver) walkPackages(ch chan *Package) int {
 		}
 
 		path = cleanPath(path)
-		if ignorePkg(path) {
+		if ignore(path) {
 			return nil
 		}
 
 		count++
-		go func(path string, ch chan *Package) {
-			p, err := NewPackage(path)
-			if err != nil {
-				if err != depth.ErrRootPkgNotResolved {
-					log.Printf("failed to resolve pkg %v: %v", path, err)
-				}
-				ch <- nil
-				return
-			}
-
-			ch <- p
-		}(path, ch)
+		go r.resolve(path, ch)
 		return nil
 	}
 
@@ -84,4 +72,19 @@ func (Resolver) walkPackages(ch chan *Package) int {
 	}
 
 	return count
+}
+
+// resolve loads the build details of a single Package and returns it
+// on the provided channel.
+func (Resolver) resolve(path string, ch chan *Package) {
+	p, err := NewPackage(path)
+	if err != nil {
+		if err != errPackageNotFound {
+			log.Printf("failed to resolve pkg %v: %v", path, err)
+		}
+		ch <- nil
+		return
+	}
+
+	ch <- p
 }
