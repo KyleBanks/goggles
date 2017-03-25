@@ -112,7 +112,17 @@ func (p *Package) makeDocs() error {
 func (p *Package) parseDocs() (*doc.Package, error) {
 	filter := func(file os.FileInfo) bool {
 		name := file.Name()
-		return !strings.HasPrefix(name, ".") && strings.HasSuffix(name, ".go") && !strings.HasSuffix(name, "_test.go")
+		if strings.HasPrefix(name, ".") || !strings.HasSuffix(name, ".go") || strings.HasSuffix(name, "_test.go") {
+			return false
+		}
+
+		for _, i := range p.Raw.IgnoredGoFiles {
+			if name == i {
+				return false
+			}
+		}
+
+		return true
 	}
 
 	pkgs, err := parser.ParseDir(p.files, sys.AbsPath(p.Name), filter, parser.ParseComments)

@@ -4,7 +4,7 @@
         {
             "name": "github.com/KyleBanks/depth",
             "branch": "master",
-            "revision": "f23af3eb15ee1eed9160ba37323070450168898d",
+            "revision": "5e7e54e3a9cf1f40a4cf1bb554e4ecb961850cb8",
             "packages": [
                 "."
             ]
@@ -20,7 +20,7 @@
         {
             "name": "github.com/alexflint/gallium",
             "branch": "master",
-            "revision": "8bad16a07bf10a5b825dd2fb5bfc56b5edbb09d8",
+            "revision": "29fad377510f778570ba077813145a33e54e6f7d",
             "packages": [
                 "."
             ]
