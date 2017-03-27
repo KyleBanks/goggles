@@ -86,5 +86,5 @@ func checkRelease() {
 		return
 	}
 
-	log.Printf("\n\n***\nVersion %v available, to update now:\ngo get -u github.com/%v/%v/cmd/goggles\n***\n\n", owner, repo, version)
+	log.Printf("\n\n***\nVersion %v available, to update now:\ngo get -u github.com/%v/%v/cmd/goggles\n***\n\n", version, owner, repo)
 }

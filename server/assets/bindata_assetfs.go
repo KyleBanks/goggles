@@ -104,7 +104,7 @@ func staticCssColorsCss() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/css/colors.css", size: 965, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/css/colors.css", size: 965, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -184,7 +184,7 @@ func staticCssMainCss() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/css/main.css", size: 3281, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/css/main.css", size: 3281, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -304,7 +304,7 @@ func staticJsApiJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/api.js", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/js/api.js", size: 2752, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -364,7 +364,7 @@ func staticJsLoaderJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/loader.js", size: 1318, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/js/loader.js", size: 1318, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -384,7 +384,7 @@ func staticJsPkgDetailsJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/pkg-details.js", size: 8317, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/js/pkg-details.js", size: 8317, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -404,7 +404,7 @@ func staticJsPkgListJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/pkg-list.js", size: 3650, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/js/pkg-list.js", size: 3650, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -424,7 +424,7 @@ func staticJsPreferencesJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/preferences.js", size: 1010, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/js/preferences.js", size: 1010, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -444,7 +444,7 @@ func staticJsStateJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/state.js", size: 714, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/js/state.js", size: 714, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -464,7 +464,7 @@ func staticJsTemplateJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/template.js", size: 747, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/js/template.js", size: 747, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -484,7 +484,7 @@ func staticJsToastJs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "static/js/toast.js", size: 480, mode: os.FileMode(420), modTime: time.Unix(1490645404, 0)}
+	info := bindataFileInfo{name: "static/js/toast.js", size: 480, mode: os.FileMode(420), modTime: time.Unix(1490659104, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
