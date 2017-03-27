@@ -64,3 +64,9 @@ func Test_OpenLinks(t *testing.T) {
 		}
 	}
 }
+
+func Test_checkRelease(t *testing.T) {
+	checkRelease()
+	// Didn't panic, good enough for now.
+	// TODO: more thorough test here
+}

@@ -1,9 +1,10 @@
-VERSION = 0.3.4
+VERSION = 0.3.5
 
 BIN = ./bin
 
 INSTALL_PKG = ./cmd/goggles
 RELEASE_PLATFORMS = darwin/386 darwin/amd64 linux/386 linux/amd64 linux/arm windows/386 windows/amd64
+LD_FLAGS = -ldflags "-X github.com/KyleBanks/goggles/cmd.version=$(VERSION)" 
 
 APP_INSTALL_PKG = ./cmd/goggles-app
 APP_NAME = Goggles.app
@@ -44,13 +45,13 @@ clean:
 
 # Builds and installs Goggles as a browser application.
 install: | clean assets	
-	@go install -v $(INSTALL_PKG)
+	@go install -v $(LD_FLAGS) $(INSTALL_PKG)
 .PHONY: install
 
 # Builds Goggles as a standalone app to the ./bin directory.
 build.app: | clean assets
 	@mkdir -p $(BIN)
-	@go build -v -o $(BIN)/goggles-app $(APP_INSTALL_PKG)
+	@go build -v $(LD_FLAGS) -o $(BIN)/goggles-app $(APP_INSTALL_PKG)
 	@gallium-bundle $(BIN)/goggles-app \
 		--output $(APP_FOLDER) \
 		--identifier $(APP_BUNDLE_ID) \

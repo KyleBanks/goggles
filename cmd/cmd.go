@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/KyleBanks/goggles/pkg/release"
 	"github.com/KyleBanks/goggles/pkg/sys"
 	"github.com/KyleBanks/goggles/resolver"
 	"github.com/KyleBanks/goggles/server"
@@ -14,9 +15,11 @@ import (
 )
 
 const (
-	aboutURL  = "https://github.com/KyleBanks/goggles"
-	thanksURL = "https://github.com/KyleBanks/goggles#thanks"
+	owner = "KyleBanks"
+	repo  = "goggles"
 )
+
+var version string
 
 var (
 	// port is the port number to listen on.
@@ -26,12 +29,18 @@ var (
 	Index = fmt.Sprintf("http://127.0.0.1:%v/static/index.html", port)
 
 	defaultProvider api.Provider = provider{resolver.Resolver{}}
+
+	aboutURL  = fmt.Sprintf("https://github.com/%v/%v", owner, repo)
+	thanksURL = fmt.Sprintf("https://github.com/%v/%v#thanks", owner, repo)
 )
 
 func init() {
-	initConfig()
+	log.Printf("v%v", version)
 
+	initConfig()
 	log.Printf("$GOPATH=%v, srcdir=%v", sys.Gopath(), sys.Srcdir())
+
+	go checkRelease()
 }
 
 func initConfig() {
@@ -64,4 +73,18 @@ func OpenThanks() {
 // Quit terminates the running application.
 func Quit() {
 	os.Exit(0)
+}
+
+// checkRelease checks if there is a new release of Goggles available, and prompts
+// the user to update if necessary.
+func checkRelease() {
+	latest, version, err := release.IsLatest(owner, repo, version)
+	if err != nil {
+		log.Printf("error checking for latest release: %v", err)
+		return
+	} else if latest {
+		return
+	}
+
+	log.Printf("\n\n***\nVersion %v available, to update now:\ngo get -u github.com/%v/%v/cmd/goggles\n***\n\n", owner, repo, version)
 }
