@@ -1,5 +1,5 @@
 {
-    "memo": "dccb7c344bc502066d9b73b1e272f9fd39e8d95d35fa49fb707693117565a08a",
+    "memo": "7b99bf2cf2b1f9bfb413232fd72f9ac22db239704f539ed83622cdf0bac09323",
     "projects": [
         {
             "name": "github.com/KyleBanks/depth",
@@ -29,6 +29,14 @@
             "name": "github.com/elazarl/go-bindata-assetfs",
             "branch": "master",
             "revision": "30f82fa23fd844bd5bb1e5f216db87fd77b5eb43",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/pkg/errors",
+            "version": "v0.8.0",
+            "revision": "645ef00459ed84a119197bfb8d8205042c6df63d",
             "packages": [
                 "."
             ]
