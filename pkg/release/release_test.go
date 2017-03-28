@@ -1,64 +1,67 @@
 package release
 
-// import (
-// 	"testing"
-// )
+import (
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
 
-// func Test_GetLatest(t *testing.T) {
-// 	tests := []struct {
-// 		owner         string
-// 		repo          string
-// 		expectSuccess bool
-// 	}{
-// 		{"KyleBanks", "goggles", true},
-// 		{"KyleBanks", "definitely doesnt exist", false},
-// 	}
+func Test_GetLatest(t *testing.T) {
+	owner := "foo"
+	repo := "bar"
+	expect := "v1.0.0"
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		query := r.URL.Query()
 
-// 	for idx, tt := range tests {
-// 		res, err := GetLatest(tt.owner, tt.repo)
-// 		if (err != nil || len(res) == 0) && tt.expectSuccess {
-// 			t.Fatalf("[%v] Expected response, got err=%v, res=%v", idx, err, res)
-// 		} else if !tt.expectSuccess && err == nil {
-// 			t.Fatalf("[%v] Expected err, got nil", idx)
-// 		}
-// 	}
-// }
+		if query.Get("owner") != owner || query.Get("repo") != repo {
+			t.Fatalf("Unexpected owner/repo, expected=%v/%v, got=%v/%v", owner, repo, query.Get("owner"), query.Get("repo"))
+		}
 
-// func Test_IsLatest(t *testing.T) {
-// 	// error case
-// 	{
-// 		_, _, err := IsLatest("KyleBanks", "not a repo", "123")
-// 		if err == nil {
-// 			t.Fatal("Expect err, got nil")
-// 		}
-// 	}
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintln(w, `[{"name": "`+expect+`"}]`)
+	}))
+	defer ts.Close()
+	endpoint = ts.URL + "?owner=%v&repo=%v"
 
-// 	latest, err := GetLatest("KyleBanks", "goggles")
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	out, err := GetLatest(owner, repo)
+	if err != nil {
+		t.Fatal(err)
+	} else if out != expect {
+		t.Fatalf("Unexpected version, expected=%v, got=%v", expect, out)
+	}
+}
 
-// 	// positive case
-// 	{
-// 		isLatest, version, err := IsLatest("KyleBanks", "goggles", latest)
-// 		if err != nil {
-// 			t.Fatal(err)
-// 		}
+func Test_IsLatest(t *testing.T) {
+	version := "v1.0.0"
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintln(w, `[{"name": "`+version+`"}]`)
+	}))
+	defer ts.Close()
+	endpoint = ts.URL + "?repo=%v&name=%v"
 
-// 		if !isLatest {
-// 			t.Fatalf("Expected isLatest to be true, got version=%v", version)
-// 		}
-// 	}
+	// positive case
+	{
+		isLatest, v, err := IsLatest("foo", "bar", version)
+		if err != nil {
+			t.Fatal(err)
+		}
 
-// 	// negative case
-// 	{
-// 		isLatest, version, err := IsLatest("KyleBanks", "goggles", latest+".789")
-// 		if err != nil {
-// 			t.Fatal(err)
-// 		}
+		if !isLatest {
+			t.Fatalf("Expected isLatest to be true, got version=%v", v)
+		}
+	}
 
-// 		if isLatest {
-// 			t.Fatalf("Expected isLatest to be false, got version=%v", version)
-// 		}
-// 	}
-// }
+	// negative case
+	{
+		isLatest, v, err := IsLatest("KyleBanks", "goggles", version+".789")
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if isLatest {
+			t.Fatalf("Expected isLatest to be false, got version=%v", v)
+		}
+	}
+}

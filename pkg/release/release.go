@@ -8,10 +8,12 @@ import (
 	"github.com/pkg/errors"
 )
 
+var endpoint = "https://api.github.com/repos/%v/%v/releases"
+
 // GetLatest returns the latest release name for the given repository.
 func GetLatest(owner, repo string) (string, error) {
 	// TODO: /latest currently returns a 404, switch when it becomes available.
-	response, err := http.Get(fmt.Sprintf("https://api.github.com/repos/%v/%v/releases", owner, repo))
+	response, err := http.Get(fmt.Sprintf(endpoint, owner, repo))
 	if err != nil {
 		return "", err
 	}
