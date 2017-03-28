@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/pkg/errors"
 )
 
 // GetLatest returns the latest release name for the given repository.
@@ -13,10 +15,11 @@ func GetLatest(owner, repo string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	defer response.Body.Close()
 
 	var releases []struct{ Name string }
 	if err := json.NewDecoder(response.Body).Decode(&releases); err != nil {
-		return "", err
+		return "", errors.Wrapf(err, "github response: %v", response.StatusCode)
 	}
 
 	if len(releases) == 0 {
